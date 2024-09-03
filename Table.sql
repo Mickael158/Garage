@@ -60,3 +60,61 @@ CREATE TABLE utilisateur(
   pswd VARCHAR,
   id_role INT REFERENCES role(id_role)
 );
+CREATE TABLE kilometrage(
+    id_kilometrage SERIAL PRIMARY KEY ,
+    dates date,
+    km decimal,
+    id_voiture INT REFERENCES voiture(id_voiture),
+    id_utilisateur INT REFERENCES utilisateur(id_utilisateur)
+);
+
+CREATE TABLE maintenance(
+  id_maintenance SERIAL PRIMARY KEY ,
+  nom_maintenanca VARCHAR
+);
+CREATE TABLE action (
+  id_action SERIAL PRIMARY KEY ,
+  nom_action VARCHAR,
+  id_maintenance INT REFERENCES maintenance(id_maintenance)
+);
+CREATE TABLE demande_maintenence(
+    id_demande_maintenence SERIAL PRIMARY KEY ,
+    dates date,
+    remarque VARCHAR,
+    id_voiture INT REFERENCES voiture(id_voiture),
+    id_utilisateur INT REFERENCES utilisateur(id_utilisateur)
+);
+CREATE TABLE liste_action_demande_maintenence(
+    id_liste_action_demande_maintenence SERIAL PRIMARY KEY ,
+    id_demande_maintenence INT REFERENCES demande_maintenence(id_demande_maintenence),
+    id_action INT REFERENCES action(id_action)
+);
+CREATE TABLE demande_maintenence_refuser(
+  id_demande_maintenence_refuser SERIAL PRIMARY KEY ,
+  dates date,
+  remarque VARCHAR,
+  id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+  id_demande_maintenence INT REFERENCES demande_maintenence(id_demande_maintenence)
+);
+CREATE TABLE demande_maintenence_valider (
+  id_demande_maintenence_valider SERIAL PRIMARY KEY ,
+  dates date,
+  date_rdv date,
+  remarque VARCHAR,
+  id_lieu INT REFERENCES lieu(id_lieu),
+  id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+  id_demande_maintenence INT REFERENCES demande_maintenence(id_demande_maintenence)
+);
+CREATE TABLE liste_action_demande_maintenence_valider(
+    id_liste_action_demande_maintenence_valider SERIAL PRIMARY KEY ,
+    id_demande_maintenence_valider INT REFERENCES demande_maintenence_valider(id_demande_maintenence_valider),
+    id_action INT REFERENCES action(id_action)
+);
+CREATE TABLE pv(
+  id_pv SERIAL PRIMARY KEY ,
+  dates date,
+  remarque VARCHAR,
+  image VARCHAR,
+  id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+  id_demande_maintenence_valider INT REFERENCES demande_maintenence_valider(id_demande_maintenence_valider)
+);
