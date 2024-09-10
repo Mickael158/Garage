@@ -19,6 +19,7 @@ CREATE TABLE transmision(
   id_transmision SERIAL PRIMARY KEY ,
   nom_transmission VARCHAR
 );
+
 CREATE TABLE energie(
   id_energie SERIAL PRIMARY KEY ,
   nom_energie VARCHAR
@@ -84,6 +85,7 @@ CREATE TABLE demande_maintenence(
     id_voiture INT REFERENCES voiture(id_voiture),
     id_utilisateur INT REFERENCES utilisateur(id_utilisateur)
 );
+
 CREATE TABLE liste_action_demande_maintenence(
     id_liste_action_demande_maintenence SERIAL PRIMARY KEY ,
     id_demande_maintenence INT REFERENCES demande_maintenence(id_demande_maintenence),
@@ -110,11 +112,29 @@ CREATE TABLE liste_action_demande_maintenence_valider(
     id_demande_maintenence_valider INT REFERENCES demande_maintenence_valider(id_demande_maintenence_valider),
     id_action INT REFERENCES action(id_action)
 );
+CREATE TABLE systeme(
+    id_systeme SERIAL PRIMARY KEY ,
+    nom_systeme VARCHAR
+);
+CREATE TABLE defaillance(
+    id_defaillance SERIAL PRIMARY KEY ,
+    nom_defaillance VARCHAR
+);
 CREATE TABLE pv(
   id_pv SERIAL PRIMARY KEY ,
   dates date,
+  numero VARCHAR,
   remarque VARCHAR,
   image VARCHAR,
   id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
   id_demande_maintenence_valider INT REFERENCES demande_maintenence_valider(id_demande_maintenence_valider)
+);
+CREATE TABLE tableauPv(
+  id_tableauPv SERIAL PRIMARY KEY ,
+  id_pv INT REFERENCES pv(id_pv),
+  id_systeme INT REFERENCES systeme(id_systeme),
+  id_defaillance INT REFERENCES defaillance(id_defaillance),
+  id_action INT REFERENCES action(id_action),
+  observation VARCHAR,
+  Ordre_de_priorite int
 );
