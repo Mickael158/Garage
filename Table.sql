@@ -123,6 +123,7 @@ CREATE TABLE defaillance(
 CREATE TABLE pv(
   id_pv SERIAL PRIMARY KEY ,
   dates date,
+  dates_pv date,
   numero VARCHAR,
   remarque VARCHAR,
   image VARCHAR,
@@ -137,4 +138,35 @@ CREATE TABLE tableauPv(
   id_action INT REFERENCES action(id_action),
   observation VARCHAR,
   Ordre_de_priorite int
+);
+CREATE TABLE concessionnaire(
+    id_concessionnaire SERIAL PRIMARY KEY ,
+    nom VARCHAR,
+    id_lieu INT REFERENCES lieu(id_lieu)
+);
+CREATE TABLE estimation(
+   id_estimation SERIAL PRIMARY KEY ,
+   dates date,
+   id_concessionnaire INT REFERENCES concessionnaire(id_concessionnaire),
+   dates_estimation date,
+   numero_estimation VARCHAR,
+   numero_client VARCHAR,
+   remarque VARCHAR,
+   image VARCHAR,
+   id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+   id_demande_maintenence_valider INT REFERENCES demande_maintenence_valider(id_demande_maintenence_valider)
+);
+
+CREATE TABLE designation(
+    id_designation SERIAL PRIMARY KEY ,
+    nom_designation VARCHAR
+);
+CREATE TABLE tableau_Estimation(
+    id_tableau_Estimation SERIAL PRIMARY KEY ,
+    id_Estimation INT REFERENCES estimation(id_estimation),
+    reference VARCHAR,
+    id_designation INT REFERENCES designation(id_designation),
+    p_u float,
+    qte int,
+    montant float
 );
