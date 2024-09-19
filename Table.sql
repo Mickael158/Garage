@@ -130,6 +130,7 @@ CREATE TABLE pv(
   id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
   id_demande_maintenence_valider INT REFERENCES demande_maintenence_valider(id_demande_maintenence_valider)
 );
+
 CREATE TABLE tableauPv(
   id_tableauPv SERIAL PRIMARY KEY ,
   id_pv INT REFERENCES pv(id_pv),
@@ -156,7 +157,6 @@ CREATE TABLE estimation(
    id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
    id_demande_maintenence_valider INT REFERENCES demande_maintenence_valider(id_demande_maintenence_valider)
 );
-
 CREATE TABLE designation(
     id_designation SERIAL PRIMARY KEY ,
     nom_designation VARCHAR
@@ -186,6 +186,7 @@ CREATE TABLE recu(
    id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
    id_demande_maintenence_valider INT REFERENCES demande_maintenence_valider(id_demande_maintenence_valider)
 );
+
 CREATE TABLE tableau_Recu(
     id_tableau_Recu SERIAL PRIMARY KEY ,
     id_Recu INT REFERENCES recu(id_recu),
@@ -195,6 +196,7 @@ CREATE TABLE tableau_Recu(
     qte int,
     montant float
 );
+
 CREATE TABLE reparation_voiture_sous_facture_debut(
   id_reparation_voiture_sous_facture_debut SERIAL PRIMARY KEY ,
   date_rdv date,
@@ -209,35 +211,34 @@ CREATE TABLE reparation_voiture_sous_facture_fin(
     id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
     id_reparation_voiture_sous_facture_debut INT REFERENCES reparation_voiture_sous_facture_debut(id_reparation_voiture_sous_facture_debut)
 );
-CREATE TABLE voiture_sur_cal(
-  id_voiture_sur_cal SERIAL PRIMARY KEY ,
+CREATE TABLE indisponibilite(
+  id_indisponibilite SERIAL PRIMARY KEY ,
+  nom VARCHAR
+);
+CREATE TABLE voiture_panne(
+  id_voiture_panne SERIAL PRIMARY KEY ,
   dates date,
+  id_lieu INT REFERENCES lieu(id_lieu),
+  id_indisponibilite INT REFERENCES indisponibilite(id_indisponibilite),
   id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
   id_voiture INT REFERENCES voiture(id_voiture)
 );
-CREATE TABLE voiture_reparer(
-    id_voiture_reparer SERIAL PRIMARY KEY ,
+CREATE TABLE voiture_redisponible(
+    id_voiture_redisponible SERIAL PRIMARY KEY ,
     dates date,
-    id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
-    id_voiture INT REFERENCES voiture(id_voiture)
+    id_voiture_panne INT REFERENCES voiture_panne(id_voiture_panne),
+    id_utilisateur INT REFERENCES utilisateur(id_utilisateur)
 );
-CREATE TABLE reparation_rapide_voiture_debut(
-    id_reparation_rapide_voiture_debut SERIAL PRIMARY KEY ,
-    date_debut date,
+CREATE TABLE reparation_rapide_voiture(
+    id_reparation_rapide_voiture SERIAL PRIMARY KEY ,
+    date date,
     remarque VARCHAR,
     id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
-    image VARCHAR
-);
-CREATE TABLE reparation_rapide_voiture_fin(
-    id_reparation_rapide_voiture_fin SERIAL PRIMARY KEY ,
-    date_fin date,
-    remarque VARCHAR,
-    id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
-    id_reparation_rapide_voiture_debut INT REFERENCES reparation_rapide_voiture_debut(id_reparation_rapide_voiture_debut)
+    id_action INT REFERENCES action(id_action)
 );
 CREATE TABLE motif_pret_voiture(
-    id_motif_pret_voiture SERIAL PRIMARY KEY ,
-    nom_motif_pret_voiture VARCHAR
+  id_motif_pret_voiture SERIAL PRIMARY KEY ,
+  nom VARCHAR
 );
 CREATE TABLE demande_pret_voiture(
   id_demande_pret_voiture SERIAL PRIMARY KEY ,
