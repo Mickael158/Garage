@@ -277,3 +277,19 @@ CREATE TABLE rendu_voiture(
     id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
     dates date
 );
+CREATE TABLE entre_piece(
+  id_entre_piece SERIAL PRIMARY KEY ,
+  id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+  id_designation INT REFERENCES designation(id_designation),
+  id_model INT REFERENCES model(id_model),
+  nbr INT,
+  dates date
+);
+CREATE TABLE sortie_piece(
+    id_sortie_piece SERIAL PRIMARY KEY ,
+    id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+    id_designation INT REFERENCES designation(id_designation),
+    id_model INT REFERENCES model(id_model),
+    nbr INT,
+    dates date
+);
