@@ -264,3 +264,16 @@ CREATE TABLE refus_pret_voiture(
     dates date,
     remarque VARCHAR
 );
+CREATE TABLE proprietere_voiture(
+  id_proprietere_voiture SERIAL PRIMARY KEY ,
+  id_personnel INT REFERENCES personnel(id_personnel),
+  id_voiture INT REFERENCES voiture(id_voiture),
+  id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+  dates date
+);
+CREATE TABLE rendu_voiture(
+    id_rendu_voiture SERIAL PRIMARY KEY ,
+    id_proprietere_voiture INT REFERENCES proprietere_voiture(id_proprietere_voiture),
+    id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+    dates date
+);
