@@ -1,7 +1,3 @@
-\c postgres;
-drop database garage;
-create database garage;
-\c garage;
 
 CREATE TABLE fonction(
   id_fonction SERIAL PRIMARY KEY ,
@@ -314,5 +310,6 @@ CREATE TABLE chauffeur(
 CREATE TABLE visite_medical(
   id_visite_medical SERIAL PRIMARY KEY ,
   date_debut date,
-  date_fin date
+  date_fin date,
+  id_chauffeur INT REFERENCES chauffeur(id_chauffeur)
 );
