@@ -1,3 +1,7 @@
+\c postgres;
+drop database garage;
+create database garage;
+\c garage;
 
 CREATE TABLE fonction(
   id_fonction SERIAL PRIMARY KEY ,
@@ -74,7 +78,6 @@ CREATE TABLE kilometrage(
     id_voiture INT REFERENCES voiture(id_voiture),
     id_utilisateur INT REFERENCES utilisateur(id_utilisateur)
 );
-
 CREATE TABLE maintenance(
   id_maintenance SERIAL PRIMARY KEY ,
   nom_maintenanca VARCHAR
@@ -91,7 +94,6 @@ CREATE TABLE demande_maintenence(
     id_voiture INT REFERENCES voiture(id_voiture),
     id_utilisateur INT REFERENCES utilisateur(id_utilisateur)
 );
-
 CREATE TABLE liste_action_demande_maintenence(
     id_liste_action_demande_maintenence SERIAL PRIMARY KEY ,
     id_demande_maintenence INT REFERENCES demande_maintenence(id_demande_maintenence),
@@ -136,7 +138,6 @@ CREATE TABLE pv(
   id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
   id_demande_maintenence_valider INT REFERENCES demande_maintenence_valider(id_demande_maintenence_valider)
 );
-
 CREATE TABLE tableauPv(
   id_tableauPv SERIAL PRIMARY KEY ,
   id_pv INT REFERENCES pv(id_pv),
@@ -300,4 +301,18 @@ CREATE TABLE sortie_piece(
     id_model INT REFERENCES model(id_model),
     nbr INT,
     dates date
+);
+CREATE TABLE permis(
+  id_permis SERIAL PRIMARY KEY ,
+  nom VARCHAR
+);
+CREATE TABLE chauffeur(
+  id_chauffeur SERIAL PRIMARY KEY ,
+  id_personne INT REFERENCES personnel(id_personnel),
+  id_permis INT REFERENCES permis(id_permis)
+);
+CREATE TABLE visite_medical(
+  id_visite_medical SERIAL PRIMARY KEY ,
+  date_debut date,
+  date_fin date
 );
