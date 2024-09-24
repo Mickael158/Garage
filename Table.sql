@@ -33,6 +33,10 @@ CREATE TABLE model(
   nom_model VARCHAR,
   id_marque INT REFERENCES marque(id_marque)
 );
+CREATE TABLE type_voiture(
+  id_type_voiture SERIAL PRIMARY KEY ,
+  nom VARCHAR
+);
 CREATE TABLE voiture(
   id_voiture SERIAL PRIMARY KEY ,
   matricule VARCHAR,
@@ -42,6 +46,7 @@ CREATE TABLE voiture(
   id_transmision INT REFERENCES transmision(id_transmision),
   id_energie INT REFERENCES energie(id_energie),
   id_service INT REFERENCES service(id_service),
+  id_type_voiture INT REFERENCES type_voiture(id_type_voiture),
   id_model INT REFERENCES model(id_model)
 );
 CREATE TABLE role(
@@ -273,7 +278,7 @@ CREATE TABLE proprietere_voiture(
 );
 CREATE TABLE rendu_voiture(
     id_rendu_voiture SERIAL PRIMARY KEY ,
-    id_proprietere_voiture INT REFERENCES proprietere_voiture(id_proprietere_voiture),
+    id_proprietere_voiture  INT REFERENCES proprietere_voiture(id_proprietere_voiture),
     id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
     dates date
 );
