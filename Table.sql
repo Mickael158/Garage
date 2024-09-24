@@ -1,3 +1,4 @@
+
 CREATE TABLE fonction(
   id_fonction SERIAL PRIMARY KEY ,
   nom_fonction VARCHAR
@@ -250,15 +251,17 @@ CREATE TABLE demande_pret_voiture(
   date_damande date,
   date_debut date,
   date_fin date,
+  nbr_pers int,
   id_motif_pret_voiture INT REFERENCES motif_pret_voiture(id_motif_pret_voiture),
   id_lieu INT REFERENCES lieu(id_lieu),
-  id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
-  id_voiture INT REFERENCES voiture(id_voiture)
+  id_utilisateur INT REFERENCES utilisateur(id_utilisateur)
 );
 CREATE TABLE validation_pret_voiture(
   id_validation_pret_voiture SERIAL PRIMARY KEY ,
   id_demande_pret_voiture INT REFERENCES demande_pret_voiture(id_demande_pret_voiture),
   id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+  id_voiture INT REFERENCES voiture(id_voiture),
+  id_personnel INT REFERENCES personnel(id_personnel),
   dates date,
   remarque VARCHAR
 );
