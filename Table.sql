@@ -1,3 +1,7 @@
+\c postgres;
+drop database garage;
+create database garage;
+\c garage;
 
 CREATE TABLE fonction(
   id_fonction SERIAL PRIMARY KEY ,
@@ -87,6 +91,7 @@ CREATE TABLE demande_maintenence(
     id_demande_maintenence SERIAL PRIMARY KEY ,
     dates date,
     remarque VARCHAR,
+    id_service INT REFERENCES service(id_service),
     id_voiture INT REFERENCES voiture(id_voiture),
     id_utilisateur INT REFERENCES utilisateur(id_utilisateur)
 );
