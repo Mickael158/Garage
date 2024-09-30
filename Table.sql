@@ -100,6 +100,7 @@ CREATE TABLE liste_action_demande_maintenence(
     id_demande_maintenence INT REFERENCES demande_maintenence(id_demande_maintenence),
     id_action INT REFERENCES action(id_action)
 );
+
 CREATE TABLE demande_maintenence_refuser(
   id_demande_maintenence_refuser SERIAL PRIMARY KEY ,
   dates date,
@@ -194,7 +195,6 @@ CREATE TABLE recu(
    id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
    id_demande_maintenence_valider INT REFERENCES demande_maintenence_valider(id_demande_maintenence_valider)
 );
-
 CREATE TABLE tableau_Recu(
     id_tableau_Recu SERIAL PRIMARY KEY ,
     id_Recu INT REFERENCES recu(id_recu),
@@ -204,7 +204,6 @@ CREATE TABLE tableau_Recu(
     qte int,
     montant float
 );
-
 CREATE TABLE reparation_voiture_sous_facture_debut(
   id_reparation_voiture_sous_facture_debut SERIAL PRIMARY KEY ,
   date_rdv date,
@@ -231,6 +230,7 @@ CREATE TABLE voiture_panne(
   id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
   id_voiture INT REFERENCES voiture(id_voiture)
 );
+
 CREATE TABLE voiture_redisponible(
     id_voiture_redisponible SERIAL PRIMARY KEY ,
     dates date,
@@ -292,15 +292,14 @@ CREATE TABLE entre_piece(
   id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
   id_designation INT REFERENCES designation(id_designation),
   id_model INT REFERENCES model(id_model),
-  nbr INT,
+  annee INT,
+  etat double precision,
   dates date
 );
 CREATE TABLE sortie_piece(
     id_sortie_piece SERIAL PRIMARY KEY ,
+    id_entre_piece INT REFERENCES entre_piece(id_entre_piece),
     id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
-    id_designation INT REFERENCES designation(id_designation),
-    id_model INT REFERENCES model(id_model),
-    nbr INT,
     dates date
 );
 CREATE TABLE permis(
@@ -318,3 +317,6 @@ CREATE TABLE visite_medical(
   date_fin date,
   id_chauffeur INT REFERENCES chauffeur(id_chauffeur)
 );
+
+
+
