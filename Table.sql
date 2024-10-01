@@ -149,6 +149,7 @@ CREATE TABLE tableauPv(
   observation VARCHAR,
   Ordre_de_priorite int
 );
+
 CREATE TABLE concessionnaire(
     id_concessionnaire SERIAL PRIMARY KEY ,
     nom VARCHAR,
@@ -195,6 +196,7 @@ CREATE TABLE recu(
    id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
    id_demande_maintenence_valider INT REFERENCES demande_maintenence_valider(id_demande_maintenence_valider)
 );
+
 CREATE TABLE tableau_Recu(
     id_tableau_Recu SERIAL PRIMARY KEY ,
     id_Recu INT REFERENCES recu(id_recu),
@@ -204,6 +206,7 @@ CREATE TABLE tableau_Recu(
     qte int,
     montant float
 );
+
 CREATE TABLE reparation_voiture_sous_facture_debut(
   id_reparation_voiture_sous_facture_debut SERIAL PRIMARY KEY ,
   date_rdv date,
@@ -242,6 +245,7 @@ CREATE TABLE reparation_rapide_voiture(
     date date,
     remarque VARCHAR,
     id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+    id_voiture INT REFERENCES voiture(id_voiture),
     id_action INT REFERENCES action(id_action)
 );
 CREATE TABLE motif_pret_voiture(
@@ -287,19 +291,28 @@ CREATE TABLE rendu_voiture(
     id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
     dates date
 );
+CREATE TABLE etat_piece(
+  id_etat_piece SERIAL PRIMARY KEY ,
+  nom VARCHAR
+);
 CREATE TABLE entre_piece(
   id_entre_piece SERIAL PRIMARY KEY ,
   id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
   id_designation INT REFERENCES designation(id_designation),
   id_model INT REFERENCES model(id_model),
   annee INT,
-  etat double precision,
+  nbr int,
+  id_etat_piece INT REFERENCES etat_piece(id_etat_piece),
   dates date
 );
 CREATE TABLE sortie_piece(
     id_sortie_piece SERIAL PRIMARY KEY ,
-    id_entre_piece INT REFERENCES entre_piece(id_entre_piece),
     id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+    id_designation INT REFERENCES designation(id_designation),
+    id_model INT REFERENCES model(id_model),
+    annee INT,
+    nbr int,
+    id_etat_piece INT REFERENCES etat_piece(id_etat_piece),
     dates date
 );
 CREATE TABLE permis(
@@ -317,6 +330,3 @@ CREATE TABLE visite_medical(
   date_fin date,
   id_chauffeur INT REFERENCES chauffeur(id_chauffeur)
 );
-
-
-
