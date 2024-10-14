@@ -36,6 +36,10 @@ CREATE TABLE marque(
     id_marque SERIAL PRIMARY KEY ,
     nom_marque VARCHAR
 );
+CREATE TABLE poste(
+    id_poste SERIAL PRIMARY KEY ,
+    nom VARCHAR
+);
 CREATE TABLE model(
   id_model SERIAL PRIMARY KEY ,
   nom_model VARCHAR,
@@ -66,7 +70,8 @@ CREATE TABLE personnel(
   nom VARCHAR,
   matricule VARCHAR,
   id_fonction INT REFERENCES fonction(id_fonction),
-  id_service INT REFERENCES service(id_service)
+  id_service INT REFERENCES service(id_service),
+  id_poste INT REFERENCES poste(id_poste)
 );
 CREATE TABLE utilisateur(
   id_utilisateur SERIAL PRIMARY KEY ,
@@ -286,6 +291,18 @@ CREATE TABLE refus_pret_voiture(
     id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
     dates date,
     remarque VARCHAR
+);
+CREATE TABLE import_proprietere_voiture(
+    id_import_proprietere_voiture SERIAL PRIMARY KEY ,
+    direction VARCHAR,
+    service VARCHAR,
+    imatriculation VARCHAR,
+    modele VARCHAR,
+    marque VARCHAR,
+    types VARCHAR,
+    energie VARCHAR,
+    nom VARCHAR,
+    Fonction VARCHAR
 );
 CREATE TABLE proprietere_voiture(
   id_proprietere_voiture SERIAL PRIMARY KEY ,
