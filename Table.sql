@@ -3,6 +3,8 @@ drop database garage;
 create database garage;
 \c garage;
 
+
+
 CREATE TABLE fonction(
   id_fonction SERIAL PRIMARY KEY ,
   nom_fonction VARCHAR
@@ -18,6 +20,7 @@ CREATE TABLE type_lieu(
 CREATE TABLE lieu(
   id_lieu SERIAL PRIMARY KEY ,
   nom_lieu VARCHAR,
+  km double precision,
   id_type_lieu INT REFERENCES type_lieu(id_type_lieu)
 );
 CREATE TABLE transmision(
@@ -117,6 +120,7 @@ CREATE TABLE demande_maintenence_valider (
   id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
   id_demande_maintenence INT REFERENCES demande_maintenence(id_demande_maintenence)
 );
+
 CREATE TABLE liste_action_demande_maintenence_valider(
     id_liste_action_demande_maintenence_valider SERIAL PRIMARY KEY ,
     id_demande_maintenence_valider INT REFERENCES demande_maintenence_valider(id_demande_maintenence_valider),
@@ -162,6 +166,9 @@ CREATE TABLE estimation(
    dates_estimation date,
    numero_estimation VARCHAR,
    numero_client VARCHAR,
+   date_entre date,
+   date_fin date,
+   date_fin date,
    remarque VARCHAR,
    image VARCHAR,
    id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
@@ -196,7 +203,6 @@ CREATE TABLE recu(
    id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
    id_demande_maintenence_valider INT REFERENCES demande_maintenence_valider(id_demande_maintenence_valider)
 );
-
 CREATE TABLE tableau_Recu(
     id_tableau_Recu SERIAL PRIMARY KEY ,
     id_Recu INT REFERENCES recu(id_recu),
@@ -206,7 +212,6 @@ CREATE TABLE tableau_Recu(
     qte int,
     montant float
 );
-
 CREATE TABLE reparation_voiture_sous_facture_debut(
   id_reparation_voiture_sous_facture_debut SERIAL PRIMARY KEY ,
   date_rdv date,
@@ -233,7 +238,6 @@ CREATE TABLE voiture_panne(
   id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
   id_voiture INT REFERENCES voiture(id_voiture)
 );
-
 CREATE TABLE voiture_redisponible(
     id_voiture_redisponible SERIAL PRIMARY KEY ,
     dates date,
@@ -259,8 +263,13 @@ CREATE TABLE demande_pret_voiture(
   date_fin date,
   nbr_pers int,
   id_motif_pret_voiture INT REFERENCES motif_pret_voiture(id_motif_pret_voiture),
-  id_lieu INT REFERENCES lieu(id_lieu),
   id_utilisateur INT REFERENCES utilisateur(id_utilisateur)
+);
+CREATE TABLE destination_pret_voiture(
+  id_destination_pret_voiture SERIAL PRIMARY KEY ,
+  id_demande_pret_voiture INT REFERENCES demande_pret_voiture(id_demande_pret_voiture),
+  depart INT REFERENCES lieu(id_lieu),
+  arriver INT REFERENCES lieu(id_lieu)
 );
 CREATE TABLE validation_pret_voiture(
   id_validation_pret_voiture SERIAL PRIMARY KEY ,
@@ -330,3 +339,4 @@ CREATE TABLE visite_medical(
   date_fin date,
   id_chauffeur INT REFERENCES chauffeur(id_chauffeur)
 );
+
