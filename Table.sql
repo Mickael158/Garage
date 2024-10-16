@@ -3,8 +3,6 @@ drop database garage;
 create database garage;
 \c garage;
 
-
-
 CREATE TABLE fonction(
   id_fonction SERIAL PRIMARY KEY ,
   nom_fonction VARCHAR
@@ -78,6 +76,12 @@ CREATE TABLE utilisateur(
   id_personnel INT REFERENCES personnel(id_personnel),
   pswd VARCHAR,
   id_role INT REFERENCES role(id_role)
+);
+CREATE TABLE demande_validation(
+  id_demande_validation SERIAL PRIMARY KEY ,
+  dates DATE,
+  id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
+  verifier VARCHAR
 );
 CREATE TABLE kilometrage(
     id_kilometrage SERIAL PRIMARY KEY ,
@@ -270,6 +274,8 @@ CREATE TABLE demande_pret_voiture(
   id_motif_pret_voiture INT REFERENCES motif_pret_voiture(id_motif_pret_voiture),
   id_utilisateur INT REFERENCES utilisateur(id_utilisateur)
 );
+
+
 CREATE TABLE destination_pret_voiture(
   id_destination_pret_voiture SERIAL PRIMARY KEY ,
   id_demande_pret_voiture INT REFERENCES demande_pret_voiture(id_demande_pret_voiture),
