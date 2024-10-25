@@ -274,8 +274,17 @@ CREATE TABLE demande_pret_voiture(
   id_motif_pret_voiture INT REFERENCES motif_pret_voiture(id_motif_pret_voiture),
   id_utilisateur INT REFERENCES utilisateur(id_utilisateur)
 );
-
-
+CREATE TABLE chauffeur(
+  id_chauffeur SERIAL PRIMARY KEY ,
+  id_personne INT REFERENCES personnel(id_personnel),
+  id_permis INT REFERENCES permis(id_permis)
+);
+CREATE TABLE visite_medical(
+   id_visite_medical SERIAL PRIMARY KEY ,
+   date_debut date,
+   date_fin date,
+   id_chauffeur INT REFERENCES chauffeur(id_chauffeur)
+);
 CREATE TABLE destination_pret_voiture(
   id_destination_pret_voiture SERIAL PRIMARY KEY ,
   id_demande_pret_voiture INT REFERENCES demande_pret_voiture(id_demande_pret_voiture),
@@ -287,7 +296,7 @@ CREATE TABLE validation_pret_voiture(
   id_demande_pret_voiture INT REFERENCES demande_pret_voiture(id_demande_pret_voiture),
   id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
   id_voiture INT REFERENCES voiture(id_voiture),
-  id_personnel INT REFERENCES personnel(id_personnel),
+  id_chauffeur INT REFERENCES chauffeur(id_chauffeur),
   dates date,
   remarque VARCHAR
 );
@@ -334,9 +343,25 @@ CREATE TABLE entre_piece(
   id_model INT REFERENCES model(id_model),
   annee INT,
   nbr int,
+  id_lieu INT REFERENCES lieu(id_lieu),
   id_etat_piece INT REFERENCES etat_piece(id_etat_piece),
   dates date
 );
+SELECT c.*
+FROM chauffeur c
+         JOIN personnel p ON c.id_personne = p.id_personnel
+WHERE c.id_chauffeur NOT IN (
+    SELECT v.id_chauffeur
+    FROM validation_pret_voiture v
+             JOIN demande_pret_voiture dpv ON v.id_demande_pret_voiture = dpv.id_demande_pret_voiture
+    WHERE (
+                  dpv.date_debut BETWEEN '2023-01-01' AND '2023-02-01' OR
+                  dpv.date_fin BETWEEN '2023-01-01' AND '2023-02-01' OR
+                  ('2023-01-01' BETWEEN dpv.date_debut AND dpv.date_fin) OR
+                  ('2023-02-01' BETWEEN dpv.date_debut AND dpv.date_fin)
+              )
+);
+
 CREATE TABLE sortie_piece(
     id_sortie_piece SERIAL PRIMARY KEY ,
     id_utilisateur INT REFERENCES utilisateur(id_utilisateur),
@@ -344,6 +369,7 @@ CREATE TABLE sortie_piece(
     id_model INT REFERENCES model(id_model),
     annee INT,
     nbr int,
+    id_lieu INT REFERENCES lieu(id_lieu),
     id_etat_piece INT REFERENCES etat_piece(id_etat_piece),
     dates date
 );
