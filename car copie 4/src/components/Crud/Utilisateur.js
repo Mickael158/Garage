@@ -28,6 +28,7 @@ function Utilisateur() {
     const [roleData, setRoleData] = useState([]);
     const [personnelData, setPersonnelData] = useState([]);
     const [demandesAttente, setDemandesAttente] = useState([]);
+    const [demandesUtilisateur, setDemandesUtilisateur] = useState([]);
     const [demandesVerifiees, setDemandesVerifiees] = useState([]);
 
     const [showModal, setShowModal] = useState(false);
@@ -117,6 +118,21 @@ function Utilisateur() {
                 }
             );
             setDemandesAttente(response.data.data);
+        } catch (error) {
+            console.error('Erreur lors de la récupération des demandes en attente', error);
+            toast.error('Erreur lors de la récupération des demandes en attente');
+        }
+    };
+    const selectDemandesutilisateur = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/Inscription/Demande_validation_inscription',
+                {
+                    headers:{
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
+            setDemandesUtilisateur(response.data.data);
         } catch (error) {
             console.error('Erreur lors de la récupération des demandes en attente', error);
             toast.error('Erreur lors de la récupération des demandes en attente');
@@ -221,12 +237,35 @@ function Utilisateur() {
             toast.error('Erreur lors de l\'envoi du code de vérification');
         }
     };
+    const Validation = async ( users) => {
+        try {
+            const response = await axios.post(
+                'http://localhost:8080/Inscription/validation',
+                {
+                    id: users
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+
+                    },
+                }
+            );
+            toast.success('Nouveau Utilisateur');
+            selectDemandesutilisateur(); // Rafraîchir la liste des demandes
+        } catch (error) {
+            console.error('Erreur lors de l\'envoi du code de vérification', error);
+            toast.error('Erreur lors de l\'envoi du code de vérification');
+        }
+    };
 
     useEffect(() => {
         // selectAll_Refuser();
         selectAll_Role();
         selectAll_Personnel();
         selectDemandesAttente();
+        selectDemandesutilisateur();
     }, []);
 
     return (
@@ -248,7 +287,7 @@ function Utilisateur() {
                             <table className="table table-striped table-hover table-bordered">
                                 <thead className="table-primary">
                                     <tr>
-                                        <th>ID</th>
+                                        <th>Numero</th>
                                         <th>Date</th>
                                         <th>Utilisateur</th>
                                         <th>Direction</th>
@@ -311,11 +350,11 @@ function Utilisateur() {
                     )}
 
                     <div className="table-container">
-                        <h3>Demandes en attente</h3>
+                        <h3>Demandes en attente mots de passe oublier</h3>
                         <table className="table table-striped table-hover table-bordered">
                             <thead className="table-primary">
                                 <tr>
-                                    <th>ID</th>
+                                    <th>Numero</th>
                                     <th>Date</th>
                                     <th>Utilisateur</th>
                                     <th>Direction</th>
@@ -340,6 +379,48 @@ function Utilisateur() {
                                                     onClick={() => handleShowModal(demande)}
                                                 >
                                                     Update
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="7">Aucune demande en attente</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="table-container">
+                        <h3>Demandes en attente nouveau Utilisateur</h3>
+                        <table className="table table-striped table-hover table-bordered">
+                            <thead className="table-primary">
+                                <tr>
+                                    <th>Numero</th>
+                                    <th>Nom</th>
+                                    <th>Matricule</th>
+                                    <th>Direction</th>
+                                    <th>Service</th>
+                                    <th>Poste</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {demandesUtilisateur.length > 0 ? (
+                                    demandesUtilisateur.map(demande => (
+                                        <tr key={demande.id_inscription}>
+                                            <td>{demande.id_inscription}</td>
+                                            <td>{demande.nom}</td>
+                                            <td>{demande.matricule}</td>
+                                            <td>{demande.id_fonction.nom_fonction}</td>
+                                            <td>{demande.id_service.nom_service}</td>
+                                            <td>{demande.id_poste.nom}</td>
+                                            <td>
+                                                <button 
+                                                    className="btn btn-primary btn-sm"
+                                                    onClick={() => Validation(demande.id_inscription)}
+                                                >
+                                                    Valider
                                                 </button>
                                             </td>
                                         </tr>

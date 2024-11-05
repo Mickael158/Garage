@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/Login.css';
 
 function Login() {
+
     const [email, setEmail] = useState('');
+    const [fonctionData, setFonctionData] = useState([]);
+    const [posteData, setPosteData] = useState([]);
+    const [serviceData, setServiceData] = useState([]);
     const [password, setPassword] = useState('');
     const [isPasswordReset, setIsPasswordReset] = useState(false);
     const [showResetRequest, setShowResetRequest] = useState(false);
@@ -14,11 +18,17 @@ function Login() {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [verificationCode, setVerificationCode] = useState('');
+    const [showSignupForm, setShowSignupForm] = useState(false);
+    const [nom, setNom] = useState('');
+    const [idFonction, setIdFonction] = useState('');
+    const [idService, setIdService] = useState('');
+    const [idPoste, setIdPoste] = useState('');
     const navigate = useNavigate();
 
     const Authentification = async (event) => {
         event.preventDefault();
         try {
+            
             const response = await axios.post(`http://localhost:8080/Login/checking`, 
                 { matricule: email, pswd: password }, {
                     headers: {
@@ -29,13 +39,62 @@ function Login() {
             if (response.data && response.data.data) {
                 const userData = response.data.data;
                     sessionStorage.setItem('token', userData);
+                
+                // if (userData.id_personnel) {
+                //     if (userData.id_personnel.id_service) {
+                //         sessionStorage.setItem('service', userData.id_personnel.id_service.id_service);
+                //     }
+                //     if (userData.id_personnel.id_fonction) {
+                //         sessionStorage.setItem('fonction', userData.id_personnel.id_fonction.id_fonction);
+                //     }
+                //     if (userData.id_personnel.id_poste) {
+                //         sessionStorage.setItem('poste', userData.id_personnel.id_poste.id_poste);
+                //     }
+                // }
+                // if (userData.id_role) {
+                //     sessionStorage.setItem('role', userData.id_role.id_role);
+                // }
+
+                
                 navigate('/menu');
             } else {
                 throw new Error('Structure de réponse invalide');
             }
         } catch (error) {
             console.error('Erreur de Vérification', error);
+            // Afficher un message d'erreur à l'utilisateur
             alert('Erreur de connexion. Veuillez vérifier vos identifiants et réessayer.');
+        }
+    };
+    const selectAll_Fonction = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/Fonction/selectAll_Fonction',
+                {}
+            );
+            setFonctionData(response.data.data);
+        } catch (error) {
+            console.error('Erreur de récupération des données', error);
+        }
+    };
+    const selectAll_Service = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/Service/selectAll_service',
+                {}
+            );
+            // Pour vérifier la structure des données
+            setServiceData(response.data.data);
+        } catch (error) {
+            console.error('Erreur de récupération des données', error);
+        }
+    };
+    const selectAllPoste = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/Poste/selectAll_Poste',
+                {}
+            );
+            setPosteData(response.data.data);
+        } catch (error) {
+            console.error('Erreur de récupération des données', error);
         }
     };
 
@@ -61,7 +120,6 @@ function Login() {
     const handlePasswordReset = async (event) => {
         event.preventDefault();
         try {
-            console.log(email);
             const response = await axios.post('http://localhost:8080/Demande_validation/InsertionDemande_validation', 
                 { matricule: email },
                 {
@@ -71,6 +129,7 @@ function Login() {
                 }
             );
 
+            
 
             if (response.data && response.data.data) {
                 alert("Demande de réinitialisation envoyée avec succès. Veuillez vérifier votre e-mail pour les instructions.");
@@ -87,10 +146,7 @@ function Login() {
     const handlePasswordResettwo = async (event) => {
         event.preventDefault();
         try {
-            console.log("Données envoyées:", email,
-                 newPassword,
-                 verificationCode
-            );
+            
             const response = await axios.post('http://localhost:8080/utilisateur/mdp_oublier', 
                 { matricule: email,
                     pswd: newPassword,
@@ -104,7 +160,7 @@ function Login() {
                 }
             );
 
-            console.log("Réponse reçue:", response.data);
+            
 
             if (response.data && response.data.data) {
                 alert("Demande de réinitialisation envoyée avec succès. Veuillez vérifier votre e-mail pour les instructions.");
@@ -127,10 +183,54 @@ function Login() {
         setResetMessage('');
     };
 
+    const showSignupFormFunc = () => {
+        setShowSignupForm(true);
+        setIsPasswordReset(false);
+        setShowResetRequest(false);
+        setShowNewPasswordForm(false);
+    };
+
+    const handleSignup = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:8080/Inscription/insertion_Inscription', 
+                { 
+                    nom: nom,
+                    matricule: email,
+                    id_fonction: idFonction,
+                    id_service: idService,
+                    id_poste: idPoste,
+                    pswd: password
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            if (response.data && response.data.data) {
+                alert("Inscription réussie !");
+                returnToLogin();
+            } else {
+                alert("Erreur lors de l'inscription. Veuillez réessayer.");
+            }
+        } catch (error) {
+            console.error('Erreur lors de l\'inscription', error);
+            alert("Erreur lors de l'inscription. Veuillez réessayer.");
+        }
+    };
+
+    useEffect(() => {
+        selectAll_Fonction();
+        selectAllPoste();
+        selectAll_Service();
+    }, []);
+
     return (
         <div className="containerlogin d-flex flex-column align-items-center justify-content-center vh-100">
             <div className="d-flex justify-content-center w-100">
-                {!isPasswordReset && (
+                {!isPasswordReset && !showSignupForm && (
                     <div className="card shadow-lg p-4 me-3" style={{ maxWidth: '400px', width: '100%' }}>
                         <h2 className="text-center mb-4">S\'identifier</h2>
                         <form onSubmit={Authentification}>
@@ -164,6 +264,62 @@ function Login() {
                         </form>
                         <div className="text-center mt-2">
                             <a href="#" onClick={handleForgotPassword} className="text-decoration-none">Mot de passe oublié ?</a>
+                        </div>
+                        <div className="text-center mt-2">
+                            <button onClick={showSignupFormFunc} className="btn btn-secondary">S'inscrire</button>
+                        </div>
+                    </div>
+                )}
+
+                {showSignupForm && (
+                    <div className="card shadow-lg p-4 me-3" style={{ maxWidth: '400px', width: '100%' }}>
+                        <h2 className="text-center mb-4">Inscription</h2>
+                        <form onSubmit={handleSignup}>
+                            <div className="mb-3">
+                                <label className="form-label">Nom</label>
+                                <input type="text" className="form-control" value={nom} onChange={(e) => setNom(e.target.value)} required placeholder="Entrez votre nom" />
+                            </div>
+                            <div className="mb-3">
+                                <label className="form-label">Matricule</label>
+                                <input type="text" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Entrez votre matricule" />
+                            </div>
+                            <div className="mb-3">
+                                <label className="form-label">Fonction</label>
+                                <select className="form-select" value={idFonction} onChange={(e) => setIdFonction(e.target.value)} required>
+                                    <option value="">Sélectionnez une fonction</option>
+                                    {fonctionData.map(fonction => (
+                                        <option key={fonction.id_fonction} value={fonction.id_fonction}>{fonction.nom_fonction}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="mb-3">
+                                <label className="form-label">Service</label>
+                                <select className="form-select" value={idService} onChange={(e) => setIdService(e.target.value)} required>
+                                    <option value="">Sélectionnez un service</option>
+                                    {serviceData.map(service => (
+                                        <option key={service.id_service} value={service.id_service}>{service.nom_service}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="mb-3">
+                                <label className="form-label">Poste</label>
+                                <select className="form-select" value={idPoste} onChange={(e) => setIdPoste(e.target.value)} required>
+                                    <option value="">Sélectionnez un poste</option>
+                                    {posteData.map(poste => (
+                                        <option key={poste.id_poste} value={poste.id_poste}>{poste.nom}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="mb-3">
+                                <label className="form-label">Mot de Passe</label>
+                                <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="Entrez votre mot de passe" />
+                            </div>
+                            <div className="d-grid">
+                                <button type="submit" className="btn btn-primary">S'inscrire</button>
+                            </div>
+                        </form>
+                        <div className="text-center mt-3">
+                            <a href="#" onClick={() => setShowSignupForm(false)} className="text-decoration-none">Retour à la connexion</a>
                         </div>
                     </div>
                 )}
