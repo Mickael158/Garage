@@ -1,0 +1,214 @@
+/* Crud.css */
+.crud-container {
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+
+.form-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px; /* Ajustez la hauteur minimale si nécessaire */
+}
+
+
+
+.menu-item {
+    margin-right: 20px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.menu-item:hover {
+    text-decoration: underline;
+}
+
+.main-content {
+    display: flex;
+}
+
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.button-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.button-group button {
+    padding: 10px;
+    font-size: 14px;
+    color: #007bff;
+    background-color: #f1f1f1;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button-group button:hover {
+    background-color: #007bff;
+    color: white;
+}
+/* Centrer le formulaire dans un div */
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.form-display form {
+    width: 100%;
+    max-width: 500px; /* Limite la largeur maximale du formulaire */
+    background-color: #f9f9f9; /* Couleur de fond pour le formulaire */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Ajoute une ombre douce pour l'effet */
+}
+
+.form-display label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-display input {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-display button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-display button:hover {
+    background-color: #0056b3;
+}
+
+select {
+    appearance: none; /* Supprime le style par défaut du navigateur */
+    background-color: #fff;
+    cursor: pointer;
+}
+
+/* Ajout d'une icône de flèche pour les sélecteurs */
+select::after {
+    content: '▼'; /* Icône de flèche vers le bas */
+    position: absolute;
+    right: 10px;
+    pointer-events: none;
+}
+
+/* Style pour les options du select */
+select option {
+    padding: 10px;
+    background-color: #fff;
+    color: #333;
+}
+
+/* Style pour le conteneur de la liste déroulante */
+select {
+    position: relative;
+    padding-right: 30px; /* Espace pour l'icône de flèche */
+}
+/* Style général pour les tables */
+.table-container {
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+thead {
+    background-color: #f2f2f2;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #4c7caf;
+    color: white;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+button.delete-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+button.delete-btn:hover {
+    background-color: #c62828;
+}
+.sublist {
+    list-style: none;
+    padding-left: 20px;
+}
+
+.sublist li {
+    margin-bottom: 10px;
+}
+
+.sublist button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    color: #007bff;
+    background-color: #f1f1f1;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.sublist button:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.crud {
+    cursor: pointer;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.crud:hover {
+    text-decoration: underline;
+}

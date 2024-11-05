@@ -1,0 +1,182 @@
+/* Styles pour la barre de navigation latérale */
+.side-navbar {
+    width: 16%;
+    background-color: #141f3e;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles pour la notification */
+.notification {
+    background-color: #ff0000; /* Couleur de fond rouge */
+    color: white; /* Texte en blanc */
+    padding: 5px 10px; /* Espacement */
+    border-radius: 12px; /* Coins arrondis */
+    font-size: 12px; /* Taille de police */
+    margin-left: 10px; /* Espacement à gauche */
+    display: inline-block; /* Pour que le padding fonctionne */
+    position: relative; /* Pour le positionnement absolu des éléments enfants */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Animation pour l'apparition */
+    opacity: 0; /* Masqué par défaut */
+    transform: translateY(-10px); /* Position initiale pour l'animation */
+}
+
+/* Affichage de la notification */
+.notification.show {
+    opacity: 1; /* Rendre visible */
+    transform: translateY(0); /* Position finale */
+}
+
+/* Styles pour le tooltip de notification */
+.notification-tooltip {
+    position: absolute; /* Pour le positionner par rapport à l'élément parent */
+    background-color: #fff; /* Couleur de fond */
+    border: 1px solid #ccc; /* Bordure */
+    padding: 8px; /* Espacement */
+    z-index: 10; /* Pour s'assurer qu'il est au-dessus des autres éléments */
+    display: none; /* Masqué par défaut */
+    border-radius: 4px; /* Coins arrondis */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Ombre pour le tooltip */
+}
+
+/* Affichage du tooltip au survol */
+.demandes-hover:hover .notification-tooltip {
+    display: block; /* Affiche le tooltip au survol */
+    top: 100%; /* Positionnez le tooltip juste en dessous de l'élément */
+    left: 50%; /* Centrez le tooltip */
+    transform: translateX(-50%); /* Ajustez pour centrer */
+}
+.notification-dot {
+    display: inline-block;
+    width: 8px; /* Ajustez la taille selon vos besoins */
+    height: 8px; /* Ajustez la taille selon vos besoins */
+    background-color: red; /* Couleur de la boule */
+    border-radius: 50%; /* Pour rendre la boule ronde */
+    margin-left: 5px; /* Espacement à gauche */
+}
+
+/* Animation pour le tooltip */
+.notification-tooltip.show {
+    animation: fadeIn 0.3s ease; /* Animation d'apparition */
+}
+
+/* Animation keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Styles pour les listes de la barre de navigation */
+.side-navbar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Styles pour les éléments de la liste */
+.side-navbar li {
+    margin: 10px 0;
+}
+
+/* Styles généraux pour les liens dans la barre de navigation */
+.side-navbar a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 16px;
+    display: block;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+/* Effet de survol général pour tous les liens */
+.side-navbar a:hover {
+    text-decoration: underline;
+    background-color: #e9ecef;
+}
+
+/* Style spécifique pour le lien "Dashboard" */
+.side-navbar a.dashboard {
+    background-color: #00bfff; /* Fond bleu ciel pour "Dashboard" */
+    color: white; /* Texte en blanc */
+}
+
+/* Effet de survol pour "Dashboard" */
+.side-navbar a.dashboard:hover {
+    background-color: #009acd; /* Bleu un peu plus foncé au survol */
+}
+
+/* Styles pour les autres éléments de la liste au survol */
+.side-navbar a.demandes-hover:hover,
+.side-navbar a.crud:hover,
+.side-navbar a.marcher-hover:hover,
+.side-navbar a.rendezvous-hover:hover,
+.side-navbar a.constatation-hover:hover {
+    background-color:  #ff0000; /* Rouge pour les liens spécifiques */
+    color: white; /* Texte en blanc pour contraster avec le rouge */
+    padding: 10px; /* Padding pour ajouter de l'espace autour du texte */
+    border-radius: 4px; /* Coins arrondis pour les liens */
+    display: block; /* Assure que le padding affecte l'élément entier */
+}
+
+/* Styles pour l'élément actif */
+.active-link {
+    background-color:  #ff0000; /* La couleur de fond du lien actif */
+    color: white; /* Le texte en blanc pour l'élément actif */
+    padding: 10px;
+    border-radius: 4px;
+}
+
+
+/* Styles pour la version responsive */
+@media screen and (max-width: 768px) {
+    .side-navbar {
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: -100%;
+        height: 100vh;
+        transition: left 0.3s ease;
+        z-index: 1000;
+    }
+
+    .side-navbar.open {
+        left: 0;
+    }
+
+    .nav-toggle {
+        display: block;
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        background: #141f3e;
+        color: white;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        z-index: 1001;
+    }
+
+    .side-navbar ul {
+        display: none;
+    }
+
+    .side-navbar ul.show {
+        display: block;
+    }
+}
+
+/* Ajustements pour les grands écrans */
+@media screen and (min-width: 769px) {
+    .nav-toggle {
+        display: none;
+    }
+
+    .side-navbar ul {
+        display: block !important;
+    }
+}

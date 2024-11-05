@@ -1,0 +1,215 @@
+.form-container2 {
+    width: auto;
+    height: auto;
+    margin:  auto;
+    padding: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ebedf0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+.table-container {
+    max-width: 100%; /* Limite la largeur du conteneur */
+    overflow-x: auto; /* Ajoute une barre de défilement horizontale si nécessaire */
+    margin: 0 auto; /* Centre le conteneur */
+}
+
+/* Form container styling */
+.form-container {
+
+    width: 100%;
+    height: auto;
+    margin:  auto;
+    padding: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #faf8fa;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Form styling */
+.form-container form {
+    width: 100%;
+    height: 100%;
+    
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.form-container input,
+.form-container select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+.form-container h3 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+    text-align: center;
+}
+
+.form-container button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.form-container button:hover {
+    background-color: #0056b3;
+}
+
+
+
+.form-inline-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+}
+
+.inline-form input[type="text"] {
+    width: 300px; /* Augmente la largeur du champ de texte */
+}
+
+.inline-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 10px; /* Space between the form elements */
+}
+
+.form-group {
+    display: flex; /* ALANA DE LASA NGEZA BOUTON */
+    flex-direction: column; /* Aligne les éléments verticalement */
+    align-items: center; /* Centre horizontalement les éléments */
+    justify-content: center; /* Centre verticalement les éléments, si la hauteur est définie */
+    width: 100%; /* Assurez-vous que le conteneur a la largeur souhaitée */
+}
+
+
+.form-container input[type="text"],
+.form-container input[type="number"],
+.form-container input[type="file"],
+
+
+.form-container select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+.inline-form label {
+    margin-right: 10px;
+}
+
+.inline-form input,
+.inline-form select {
+    padding: 8px;
+    margin-left: 5px;
+    width: 180px; /* You can adjust this value for better spacing */
+}
+.submit-button {
+    padding: 15px 30px; /* Augmente la taille du bouton */
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.form-container button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.form-container button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* * Ajout d'un focus pour les éléments du formulaire */ */
+.form-container input[type="text"]:focus,
+.form-container input[type="number"]:focus,
+.form-container input[type="file"]:focus,
+.form-container select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Amélioration des styles des éléments select */
+.form-container select {
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+
+.submit-button:hover {
+    background-color: #45a049;
+}
+/* Ajout pour le container des checkbox */
+.checkbox-container {
+    display: flex;
+    flex-direction: row; /* Aligne les divs côte à côte */
+    justify-content: space-between; /* Espace entre les groupes de checkbox */
+    gap: 20px; /* Espace entre les groupes */
+    margin-top: 20px;
+}
+
+/* Style des groupes de checkbox */
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #f2eef9;;
+    width: 30%; /* Taille de chaque div de checkbox pour qu'ils se partagent l'espace */
+}
+
+/* Bouton Insérer plus grand */
+.insert-button {
+    width: 100%; /* Ajustement de la largeur à 100% */
+    padding: 15px;
+    background-color: #28a745;
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+
+.insert-button:hover {
+    background-color: #218838;
+}
+
+

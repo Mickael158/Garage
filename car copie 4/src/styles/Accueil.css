@@ -1,0 +1,165 @@
+/* Conteneur principal de la page d'accueil */
+.accueil-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* S'assurer que le conteneur prend la hauteur de la vue */
+}
+
+/* Styles pour l'en-tête de la page d'accueil */
+.header-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #141f3e;
+    color: white;
+}
+
+/* Styles pour le titre de l'en-tête */
+.header-left h1 {
+    margin: 0;
+}
+
+/* Styles pour la partie droite de l'en-tête */
+.header-right {
+    display: flex;
+}
+
+/* Styles pour les éléments du menu en haut */
+.header-item {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 16px;
+}
+
+/* Effet de survol pour les éléments du menu en haut */
+
+
+/* Styles pour la section principale de contenu */
+.main-section {
+    display: flex;
+    flex: 1;
+}
+
+
+/* Styles pour la section de contenu */
+.content-section {
+    flex: 1;
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+/* Styles pour le conteneur du formulaire */
+.form-container, .request-container, .repair-request-container {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Styles pour les titres du formulaire */
+.form-container h3, .request-container h3, .repair-request-container h3 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+    text-align: center;
+}
+
+/* Styles pour les étiquettes */
+.form-container label, .request-container label, .repair-request-container label {
+    display: block;
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 8px;
+    margin-top: 15px;
+}
+
+/* Styles pour les champs de saisie */
+.form-container input[type="text"],
+.form-container input[type="number"],
+.form-container input[type="file"],
+.form-container select,
+.request-container input[type="text"],
+.request-container input[type="number"],
+.request-container select,
+.repair-request-container input[type="text"],
+.repair-request-container input[type="number"],
+.repair-request-container select,
+.repair-request-container textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Styles pour les boutons */
+.form-container button[type="submit"],
+.request-container button[type="button"],
+.repair-request-container button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/* Effets de survol pour le bouton */
+.form-container button[type="submit"]:hover,
+.request-container button[type="button"]:hover,
+.repair-request-container button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Ajout d'un focus pour les éléments du formulaire */
+.form-container input[type="text"]:focus,
+.form-container input[type="number"]:focus,
+.form-container input[type="file"]:focus,
+.form-container select:focus,
+.request-container input[type="text"]:focus,
+.request-container input[type="number"]:focus,
+.request-container select:focus,
+.repair-request-container input[type="text"]:focus,
+.repair-request-container input[type="number"]:focus,
+.repair-request-container select:focus,
+.repair-request-container textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Amélioration des styles des éléments select */
+.form-container select,
+.request-container select,
+.repair-request-container select {
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+/* Styles pour les options de réparation ou entretien */
+.repair-request-container .options {
+    margin-top: 15px;
+}
+
+/* Styles pour les labels des options */
+.repair-request-container .options h5 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #333;
+}
+
+.repair-request-container .options label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+}

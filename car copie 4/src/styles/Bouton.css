@@ -1,0 +1,36 @@
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 10px;
+    margin: 20px;
+}
+
+.menu-button {
+    background-color: rgba(40, 31, 167, 0.1); /* Fond transparent */
+    border: 2px solid #000080; /* Bordure bleu marine */
+    color: #000080; /* Texte bleu marine */
+    padding: 15px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.menu-button:hover {
+    background-color: rgba(0, 34, 255, 0.1); /* Légère coloration bleue marine au survol */
+    transform: scale(1.05);
+    text-decoration: underline;
+}
+
+.menu-button a {
+    color: #000080; /* Texte bleu marine */
+    text-decoration: none;
+}
+
+.menu-button a:visited {
+    color: #000080; /* Conserver la couleur bleu marine après avoir visité */
+}

@@ -1,0 +1,31 @@
+/* Styles pour l'en-tête du menu */
+.top-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #141f3e;
+    color: white;
+}
+
+/* Styles pour le titre de l'en-tête */
+.top-menu-left h1 {
+    margin: 0;
+}
+
+/* Styles pour la partie droite de l'en-tête */
+.top-menu-right {
+    display: flex;
+}
+
+.menu-item {
+    margin-left: 15px;
+    color: white;
+    text-decoration: none;
+}
+
+/* Styles pour l'icône de notification */
+.notification-icon {
+    font-size: 1.5rem;  /* Ajustez la taille de l'icône ici */
+    color: white;
+}

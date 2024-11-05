@@ -1,0 +1,132 @@
+/* Conteneur principal des détails du véhicule */
+.vehicle-details-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+
+
+/* Styles pour les éléments du menu en haut */
+.menu-item {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 16px;
+}
+
+/* Effet de survol pour les éléments du menu en haut */
+.menu-item:hover {
+    text-decoration: underline;
+}
+
+/* Styles pour la section principale de contenu */
+.main-content {
+    display: flex;
+    flex: 1;
+    position: relative;
+}
+
+
+/* Styles pour la section de contenu */
+.content {
+    flex: 1;
+    padding: 20px;
+    background-color: #ffffff;
+    position: relative;
+    text-align: center;
+}
+
+/* Styles pour le bouton "Retour" */
+.back-button {
+    position: absolute;
+    top: 2%;
+    left: 87%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    z-index: 1;
+}
+
+/* Effet de survol pour le bouton "Retour" */
+.back-button:hover {
+    background-color: #0056b3;
+}
+
+/* Styles pour les détails du véhicule */
+.vehicle-details {
+    margin-top: 20px;
+}
+
+/* Styles pour le titre des détails */
+.vehicle-details h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Styles pour les paragraphes des détails */
+.vehicle-details p {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+/* Styles pour la photo du véhicule */
+.vehicle-photo {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 4px;
+}
+
+/* Conteneur pour les boutons en bas */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Styles pour le bouton "Valider" */
+.validate-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    flex: 1;
+    margin-right: 10px;
+}
+
+/* Effet de survol pour le bouton "Valider" */
+.validate-button:hover {
+    background-color: #218838;
+}
+
+/* Styles pour le bouton "Rejeter" */
+.reject-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    flex: 1;
+    margin-left: 10px;
+}
+
+/* Effet de survol pour le bouton "Rejeter" */
+.reject-button:hover {
+    background-color: #c82333;
+}

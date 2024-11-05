@@ -1,0 +1,60 @@
+.containerlogin {
+    min-height: 100vh;
+    background-image: url('../images/log.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+.card {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 1rem;
+}
+
+.card h2 {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.card-title {
+    color: #333;
+}
+
+.form-label {
+    color: #333;
+}
+
+.btn {
+    padding: 12px;
+    font-size: 16px;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.contact-info {
+    color: #fe6a00;
+}
+
+.contact-item {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.contact-item i {
+    margin-right: 8px;
+    color: #007bff;
+}
+
+.btn-primary {
+    background-color: #6e8efb;
+    border-color: #6e8efb;
+}
