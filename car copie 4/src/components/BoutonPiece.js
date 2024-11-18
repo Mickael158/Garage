@@ -12,7 +12,7 @@ function BoutonPiece() {
     return (
                 <div className="content">
                     <div className="button-container">
-                        <button className="menu-button"><Link to="/insertpieces">Inserer pièce </Link></button>
+                        <button className="menu-button"><Link to="/insertpieces">Entrer pièce </Link></button>
                         <button className="menu-button"><Link to="/sortiepieces">Sortie pièce</Link></button>
                       </div>
                 </div>

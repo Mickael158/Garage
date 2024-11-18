@@ -244,7 +244,7 @@ function DemandeValide() {
             });
         } else {
             setSelectedRequest(validation);
-            setShowModalRecu(true);
+            setShowModalRecu(true); 
         }
     };
 
@@ -731,7 +731,7 @@ function DemandeValide() {
         <Nav />
         <div className="content">
             <div className="padding-top-black">
-                <h2>Listes des demandes Valide</h2>
+                <h2>Listes des demandes Validées</h2>
             </div>
             
             <div className="table-wrapper">
@@ -754,14 +754,14 @@ function DemandeValide() {
                         <thead className="table-primary">
                     
                         <tr>
-                            <th>Numero</th>
-                            <th>Immatricule</th>
+                            <th>Numéro</th>
+                            <th>Immatriculation</th>
                             <th>Nom</th>
                             <th>Service</th>
                             <th>Remarque</th>
                             <th>Pv</th>
                             <th>Proforma</th>
-                            <th>Recu</th>
+                            <th>Facture</th>
                             <th>Voir Demarche</th>
                         </tr>
                     </thead>
@@ -796,7 +796,7 @@ function DemandeValide() {
                                                 title="Insertion Proformat"
                                                 onClick={() => handleShowModalProformat(validation)}
                                             >
-                                                <i className="fas fa-paperclip"></i> Insert Proformat
+                                                <i className="fas fa-paperclip"></i> Insert Proforma
                                             </button>
                                         )}
                                     </td>
@@ -809,7 +809,7 @@ function DemandeValide() {
                                                 title="Insertion Recu"
                                                 onClick={() => handleShowModalRecu(validation)}
                                             >
-                                                <i className="fas fa-paperclip"></i> Insert Recu
+                                                <i className="fas fa-paperclip"></i> Insert Facture
                                             </button>
                                         )}
                                     </td>
@@ -998,7 +998,7 @@ function DemandeValide() {
 
             <Modal show={showModalProformat} onHide={handleCloseModalProforamat} size="lg">
                 <Modal.Header closeButton>
-                    <Modal.Title>Insérer Proformat</Modal.Title>
+                    <Modal.Title>Insérer Proforma</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={insert_Proforamat}>
@@ -1176,7 +1176,7 @@ function DemandeValide() {
 
             <Modal show={showModalRecu} onHide={handleCloseModalRecu} size="lg">
                 <Modal.Header closeButton>
-                    <Modal.Title>Insérer Recu</Modal.Title>
+                    <Modal.Title>Insérer Facture</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={insert_Recu}>
@@ -1200,7 +1200,7 @@ function DemandeValide() {
                                 </Form.Control><br></br>
 
                                 <Form.Group controlId="formImage" className="mb-3">
-                                <Form.Label>Numéro Recu</Form.Label>
+                                <Form.Label>Numéro Facture</Form.Label>
                             <Form.Control
                                 type="number"
                                 placeholder="Entrez le numéro"
@@ -1213,7 +1213,7 @@ function DemandeValide() {
 
 
                         <Form.Group controlId="formDates">
-                            <Form.Label>Date et Heure Reçue</Form.Label>
+                            <Form.Label>Date et Heure Facture</Form.Label>
                             <Form.Control
                                 type="datetime-local"
                                 placeholder="Entrez la date et l'heure"

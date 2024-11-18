@@ -248,7 +248,7 @@ function EntreePiece() {
                             </div>
 
                             <div className="mb-3">
-                                <label className="form-label">Année:</label>
+                                <label className="form-label">Année Modèle:</label>
                                 <input
                                     className="form-control"
                                     type="number"
@@ -293,7 +293,7 @@ function EntreePiece() {
                                         <th>Utilisateur</th>
                                         <th>Désignation</th>
                                         <th>Modèle</th>
-                                        <th>Année</th>
+                                        <th>Année Modèle</th>
                                         <th>Nombre</th>
                                         <th>État</th>
                                         <th>Date</th>

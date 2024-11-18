@@ -14,6 +14,7 @@ function DemandeAttente() {
 
     const [actionMaintData, setActionMaintData] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [showModalVoiture, setshowModalVoiture] = useState(false);
     const [showRefusModal, setShowRefusModal] = useState(false); // Ajout du modal de refus
     const [matricule, setMatricule] = useState('');
     const [idDemande, setIdDemande] = useState('');
@@ -22,14 +23,50 @@ function DemandeAttente() {
     const [dateRdv, setDateRdv] = useState('');
     const [inputFields, setInputFields] = useState(['']);
     const [lieuData, setLieuData] = useState([]);
+    const [SelectRapide, setSelectRapide] = useState([]);
+    const [SelectRecu, setSelectRecu] = useState([]);
     const [searchTerm, setSearchTerm] = useState(''); 
     const [selectedLieu, setSelectedLieu] = useState('');
     const [searchTermService, setSearchTermService] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);
 
-    
-
+    const handleShowModalVoiture = (matricule) => {
+        Rapide(matricule);
+        Recu(matricule);
+        setshowModalVoiture(true);
+    };
+    const handleCloseRefusModalVoiture = () => {
+        setshowModalVoiture(false); // Fermer le modal de refus
+    };
+    const Rapide = async (matricule) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/Reparation_rapide_voiture/reparation_rapide_fait_by_matricule/${matricule}`,
+                {
+                    headers:{
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
+            setSelectRapide(response.data.data);
+        } catch (error) {
+            console.error('Erreur de récupération des données', error);
+        }
+    };
+    const Recu = async (matricule) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/Tabeau_Recu/reparation_fait_by_matricule/${matricule}`,
+                {
+                    headers:{
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
+            setSelectRecu(response.data.data);
+        } catch (error) {
+            console.error('Erreur de récupération des données', error);
+        }
+    };
     const handleShowModal = (fonction) => {
         setMatricule(fonction.id_voiture.matricule);
         setIdDemande(fonction.id_demande_maintenence);
@@ -329,8 +366,8 @@ function DemandeAttente() {
         <thead className="table-primary">
                     
                     <tr>
-                        <th>Numero</th>
-                        <th>Immatricule</th>
+                        <th>Numéro</th>
+                        <th>Immatriculation</th>
                         <th>Nom</th>
                         <th>Service</th>
                         <th>Direction</th>
@@ -344,7 +381,16 @@ function DemandeAttente() {
                     currentItems.map(fonction => (
                         <tr key={fonction.id_demande_maintenence}>
                             <td>{fonction.id_demande_maintenence}</td>
-                            <td>{fonction.id_voiture.matricule}</td>
+                            <td>
+                                <button
+                                    className="btn validate-button"
+                                    style={{"color": "black" , "background-color": "#0080ff"}}
+                                    title="Valider"
+                                    onClick={() => handleShowModalVoiture(fonction.id_voiture.matricule)}
+                                >
+                                    {fonction.id_voiture.matricule}
+                                </button>
+                                </td>
                             <td>{fonction.id_utilisateur.id_personnel.nom}</td>
                             <td>{fonction.id_utilisateur.id_personnel.id_service.nom_service}</td>
                             <td>{fonction.id_utilisateur.id_personnel.id_fonction.nom_fonction}</td>
@@ -453,6 +499,70 @@ function DemandeAttente() {
                     </Button>
                     <Button variant="danger" onClick={insertRefus}>
                         Refuser
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+            <Modal show={showModalVoiture} onHide={handleCloseRefusModalVoiture}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Historique du voitire {matricule}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>De ces 12 dernier mois</p>
+                    <div className="scrollable-table">  
+                        <p>Conssessionnaire</p>
+                    <table className="table table-striped table-hover table-responsive">
+                        <thead className="table-primary">
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Designation</th>
+                                    </tr>
+                                </thead>
+                            <tbody>
+                            {SelectRecu.length > 0 ? (
+                                SelectRecu.map(recu => (
+                                    <tr key={recu.id_tableau_recu}>
+                                        <td>{recu.id_recu.dates}</td>
+                                        <td>{recu.id_designation.nom_designation}</td>
+                                    </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="8" className="text-center">Aucune donnée disponible</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="scrollable-table">  
+                        <p>Rapide</p>
+                    <table className="table table-striped table-hover table-responsive">
+                        <thead className="table-primary">
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Designation</th>
+                                    </tr>
+                                </thead>
+                            <tbody>
+                            {SelectRapide.length > 0 ? (
+                                SelectRapide.map(rapide => (
+                                    <tr key={rapide.id_reparation_rapide_voiture}>
+                                        <td>{rapide.date}</td>
+                                        <td>{rapide.id_action.nom_action}</td>
+                                    </tr>
+                            ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="8" className="text-center">Aucune donnée disponible</td>
+                                </tr>
+                            )}
+                            </tbody>
+                        </table>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseRefusModalVoiture}>
+                        Fermer
                     </Button>
                 </Modal.Footer>
             </Modal>

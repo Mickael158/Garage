@@ -119,7 +119,7 @@ function Nav() {
                         <li style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <Link to="/demande-en-attente" className={`demandes-hover ${activeLink === '/demande-en-attente' ? 'active-link' : ''}`} onClick={() => handleLinkClick('/demande-en-attente')}>
                                 <FaClock className="icon" />
-                                Demande en attentes 
+                                Demandes en attente
                             </Link>
                             <span className="notification-container position-relative">
                                 {typeof countDemandeAttente === 'number' && countDemandeAttente > 0 && (
@@ -132,7 +132,7 @@ function Nav() {
                         <li>
                             <Link to="/demande_valide" className={`marcher-hover ${activeLink === '/demande_valide' ? 'active-link' : ''}`} onClick={() => handleLinkClick('/demande_valide')}>
                                 <FaCheckCircle className="icon" />
-                                Demandes Validé
+                                Demandes Validées
                             </Link>
                             <span className="notification-container position-relative">
                                 {typeof countDemandeValide === 'number' && countDemandeValide > 0 && (
@@ -157,7 +157,7 @@ function Nav() {
                         <li>
                             <Link to="/validationpret" className={`rendezvous-hover ${activeLink === '/validationpret' ? 'active-link' : ''}`} onClick={() => handleLinkClick('/validationpret')}>
                                 <FaCheckCircle className="icon" />
-                                Validation des Prêt 
+                                Validation des Prêts 
                             </Link>
                             <span className="notification-container position-relative">
                                 {typeof countDemandePretNonValide === 'number' && countDemandePretNonValide > 0 && (

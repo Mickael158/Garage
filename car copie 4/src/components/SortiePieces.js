@@ -9,16 +9,14 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Select from 'react-select';
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 function EntreePiece() {
     const token = sessionStorage.getItem('token');
 
-    const [idDesignation, setIdDesignation] = useState('');
-    const [idModel, setIdModel] = useState('');
-    const [nbr, setNbr] = useState('');
-    const [dates, setDates] = useState('');
-    const [annee, setAnnee] = useState('');
-    const [etat, setEtat] = useState('');
+
+    
 
     const [sortiePiece, setsortiePiece] = useState([]);
     const [etatPieceData, setEtatPieceData] = useState([]);
@@ -42,14 +40,7 @@ function EntreePiece() {
         label: etat.nom
     }));
 
-    const [filtres, setFiltres] = useState({
-        idDesignation: '',
-        idModel: '',
-        annee: '',
-        etat: ''
-    });
 
-    const [resultatsFiltres, setResultatsFiltres] = useState([]);
 
     const [dateActuelle] = useState(new Date().toISOString().split('T')[0]);
 
@@ -64,71 +55,62 @@ function EntreePiece() {
         label: lieu.nom_lieu
     }));
 
-    useEffect(() => {
-        setResultatsFiltres(sortiePiece);
-    }, [sortiePiece]);
+    const [selectedDesignation, setSelectedDesignation] = useState(null);
+const [selectedModel, setSelectedModel] = useState(null);
+const [annee, setAnnee] = useState('');
+const [selectedEtat, setSelectedEtat] = useState(null);
+const [selectedLieu, setSelectedLieu] = useState(null);
+    
 
-    const handleFiltreChange = (champ, valeur) => {
-        setFiltres(prev => ({ ...prev, [champ]: valeur }));
-    };
 
-    const handleRecherche = (event) => {
-        const resultats = Array.isArray(sortiePiece) ? sortiePiece.filter(entree => 
-            (!filtres.idDesignation || (entree.designation && entree.designation.id_designation === filtres.idDesignation)) &&
-            (!filtres.idModel || (entree.model && entree.model.id_model === filtres.idModel)) &&
-            (!filtres.annee || (entree.annee === Number(filtres.annee))) &&
-            (!filtres.etat || (entree.etat_piece && entree.etat_piece.id_etat_piece === filtres.etat && filtres.etat !== '')) &&
-            (!idLieu || (entree.lieu && entree.lieu.id_lieu === idLieu))
-        ) : [];
-        
-    };
+    
 
-    const handleInsertion = async (event) => {
-        event.preventDefault();
-        try {
-            const response = await axios.post(`http://localhost:8080/Sortie_piece/insertion_Entre_piece`, 
-                {
-                    id_utilisateur: token,
-                    id_designation: idDesignation,
-                    id_model: idModel,
-                    annee: annee,
-                    nbr: nbr,
-                    id_etat_piece: etat,
-                    dates: dates,
-                    id_lieu: idLieu,
-                }, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+const generatePDF = (data) => {
+    const doc = new jsPDF();
 
-                    },
-                }
-            );
-            toast.success('Données bien insérées!', {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-            });
-            selectAllSortiePiece();  // Recharger les données après l'insertion
-        } catch (error) {
-            console.error('Erreur de vérification', error);
-            toast.error('Erreur lors de l\'insertion!', {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-            });
-        }
-    };
+    // Ajouter le titre et les informations principales
+    doc.setFontSize(12);
+    doc.text("MINISTÈRE DES FINANCES ET DU BUDGET", 10, 10);
+    doc.text("Secrétariat Général", 10, 16);
+    doc.text("Direction Générale du Budget et des Finances", 10, 22);
+    doc.text("Service Administratif et Financier", 10, 28);
+    
+    doc.setFontSize(14);
+    doc.text("BON DE SORTIE", 90, 40);
+
+    // Informations du document
+    doc.setFontSize(12);
+    doc.text(`Destiné au : ${data.destinataire}`, 10, 50);
+    doc.text(`Numéro : ${data.numero}`, 10, 56);
+
+    // Tableau des pièces
+    const tableColumn = ["DESIGNATIONS", "UNITÉ", "QUANTITÉ", "OBSERVATION"];
+    const tableRows = [];
+
+    data.pieces.forEach((piece) => {
+        tableRows.push([piece.designation, piece.unite, piece.quantite, piece.observation || ""]);
+    });
+
+    doc.autoTable({
+        startY: 65,
+        head: [tableColumn],
+        body: tableRows,
+    });
+
+    // Signatures
+    doc.text("Le Bénéficiaire", 10, doc.lastAutoTable.finalY + 20);
+    doc.text("Le Dépositaire", 90, doc.lastAutoTable.finalY + 20);
+    doc.text("Le Magasinier", 160, doc.lastAutoTable.finalY + 20);
+
+    // Sauvegarder ou afficher le PDF
+    doc.save("bon_de_sortie.pdf");
+};
+
+    
 
     const selectAllSortiePiece = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Entre_piece/selectStock_piece',
+            const response = await axios.get('http://localhost:8080/Entre_piece/selectStock_piece1',
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -237,6 +219,14 @@ function EntreePiece() {
             toast.success('Pièces récupérées avec succès!');
             selectAllSortiePiece();  // Recharger les données
             setShowModal(false);
+            const data = {
+                destinataire: "Personne Responsable des Marchés Publics DGBF",
+                numero: "2024 MEF/SG/DGFAG/SAF",
+                pieces: [
+                    { designation: selectedSortie.designation?.nom_designation, unite: selectedSortie.designation?.nom_designation, quantite: nombre, observation: "via Car management" },
+                ]
+            };
+            generatePDF(data);
         } catch (error) {
             console.error('Erreur lors de la récupération', error);
             toast.error('Erreur lors de la récupération des pièces');
@@ -266,6 +256,19 @@ function EntreePiece() {
             console.error('Erreur de récupération des données', error);
         }
     };
+    const filteredSortiePiece = sortiePiece.filter(sortie => {
+        return (
+            (selectedDesignation ? sortie.designation?.nom_designation === selectedDesignation.label : true) &&
+            (selectedModel ? sortie.model?.nom_model === selectedModel.label : true) &&
+            (annee ? sortie.annee === parseInt(annee) : true) &&
+            (selectedEtat ? sortie.etat_piece?.nom === selectedEtat.label : true) &&
+            (selectedLieu ? sortie.lieu.nom_lieu === selectedLieu.label : true)
+        );
+    });
+    const handleSearch = (e) => {
+        e.preventDefault();
+        // Filtrer les données ici
+    };
 
     return (
         <div className="menu-container">
@@ -275,71 +278,72 @@ function EntreePiece() {
                 <div className="content">
                     <BoutonPiece />
                     <div className="padding-top-black rounded">
-                        <h2>Recherche de Sortie de Pièces</h2>
+                        <h2>Recherche des Pièces</h2>
                     </div>
                     <div className="table-wrapper">
-                        <form onSubmit={handleRecherche} className="mb-4">
-                            <div className="mb-3">
-                                <label className="form-label">Désignation:</label>
-                                <Select
-                                    value={designationOptions.find(option => option.value === filtres.idDesignation)}
-                                    onChange={(selectedOption) => handleFiltreChange('idDesignation', selectedOption ? selectedOption.value : '')}
-                                    options={designationOptions}
-                                    placeholder="Sélectionner une désignation"
-                                    isSearchable={true}
-                                    isClearable={true}
-                                />
-                            </div>
+                    <form className="mb-4" onSubmit={handleSearch}>
+        <div className="mb-3">
+            <label className="form-label">Désignation:</label>
+            <Select
+                value={selectedDesignation}
+                options={designationOptions}
+                onChange={(selectedOption) => setSelectedDesignation(selectedOption)}
+                placeholder="Sélectionner une désignation"
+                isSearchable={true}
+                isClearable={true}
+            />
+        </div>
 
-                            <div className="mb-3">
-                                <label>Modèle:</label>
-                                <Select
-                                    value={modelOptions.find(option => option.value === filtres.idModel)}
-                                    onChange={(selectedOption) => handleFiltreChange('idModel', selectedOption ? selectedOption.value : '')}
-                                    options={modelOptions}
-                                    placeholder="Sélectionner un modèle"
-                                    isSearchable={true}
-                                    isClearable={true}
-                                />
-                            </div>
+        <div className="mb-3">
+            <label>Modèle:</label>
+            <Select
+                value={selectedModel}
+                options={modelOptions}
+                onChange={(selectedOption) => setSelectedModel(selectedOption)}
+                placeholder="Sélectionner un modèle"
+                isSearchable={true}
+                isClearable={true}
+            />
+        </div>
 
-                            <div className="mb-3">
-                                <label className="form-label">Année:</label>
-                                <input
-                                    className="form-control"
-                                    type="number"
-                                    placeholder="Filtrer par année"
-                                    value={filtres.annee}
-                                    onChange={(e) => handleFiltreChange('annee', e.target.value)}
-                                />
-                            </div>
+        <div className="mb-3">
+            <label className="form-label">Année Modèle:</label>
+            <input
+                className="form-control"
+                type="number"
+                placeholder="Filtrer par année"
+                value={annee}
+                onChange={(e) => setAnnee(e.target.value)}
+            />
+        </div>
 
-                            <div className="mb-3">
-                                <label className="form-label">État:</label>
-                                <Select
-                                    value={etatOptions.find(option => option.value === filtres.etat)}
-                                    onChange={(selectedOption) => handleFiltreChange('etat', selectedOption ? selectedOption.value : '')}
-                                    options={etatOptions}
-                                    placeholder="Sélectionner un état"
-                                    isSearchable={true}
-                                    isClearable={true}
-                                />
-                            </div>
+        <div className="mb-3">
+            <label className="form-label">État:</label>
+            <Select
+                value={selectedEtat}
+                options={etatOptions}
+                onChange={(selectedOption) => setSelectedEtat(selectedOption)}
+                placeholder="Sélectionner un état"
+                isSearchable={true}
+                isClearable={true}
+            />
+        </div>
 
-                            <div className="mb-3">
-                                <label>Lieu:</label>
-                                <Select
-                                    value={lieuOptions.find(option => option.value === idLieu)}
-                                    onChange={(selectedOption) => setIdLieu(selectedOption.value)}
-                                    options={lieuOptions}
-                                    placeholder="Sélectionner un lieu"
-                                    isSearchable={true}
-                                    required
-                                />
-                            </div>
+        <div className="mb-3">
+            <label>Lieu:</label>
+            <Select
+                value={selectedLieu}
+                options={lieuOptions}
+                onChange={(selectedOption) => setSelectedLieu(selectedOption)}
+                placeholder="Sélectionner un lieu"
+                isSearchable={true}
+                isClearable={true}
+            />
+        </div>
 
-                            <Button variant="primary" type="submit">Rechercher</Button>
-                        </form>
+        <Button variant="primary" type="submit">Rechercher</Button>
+    </form>
+
 
                         <table className="table table-striped table-hover">
                         <thead className="table-primary">
@@ -350,36 +354,34 @@ function EntreePiece() {
                         <th>Année</th>
                         <th>État</th>
                         <th>Nombre</th>
-                        <th>Date</th>
                         <th>Lieu</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                                {resultatsFiltres && resultatsFiltres.length > 0 ? (
-                                    resultatsFiltres.map((sortie, index) => (
-                                        <tr key={index}>
-                                            <td>{sortie.designation?.nom_designation || 'N/A'}</td>
-                                            <td>{sortie.model?.nom_model || 'N/A'}</td>
-                                            <td>{sortie.model?.id_marque?.nom_marque || 'N/A'}</td>
-                                            <td>{sortie.annee || 'N/A'}</td>
-                                            <td>{sortie.etat_piece?.nom || 'N/A'}</td>
-                                            <td>{sortie.nbr || 'N/A'}</td>
-                                            <td>{sortie.dates || 'N/A'}</td>
-                                            <td>{sortie.lieu.nom_lieu || 'N/A'}</td>
-                                            <td>
-                                                <Button variant="primary" onClick={() => handleRecupererClick(sortie)}>
-                                                    Récupérer
-                                                </Button>
-                                            </td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan="8">Aucune donnée correspondante trouvée</td>
-                                    </tr>
-                                )}
-                            </tbody>
+                    {filteredSortiePiece.length > 0 ? (
+                        filteredSortiePiece.map((sortie, index) => (
+                            <tr key={index}>
+                                <td>{sortie.designation?.nom_designation || 'N/A'}</td>
+                                <td>{sortie.model?.nom_model || 'N/A'}</td>
+                                <td>{sortie.model?.id_marque?.nom_marque || 'N/A'}</td>
+                                <td>{sortie.annee || 'N/A'}</td>
+                                <td>{sortie.etat_piece?.nom || 'N/A'}</td>
+                                <td>{sortie.nbr || 'N/A'}</td>
+                                <td>{sortie.lieu.nom_lieu || 'N/A'}</td>
+                                <td>
+                                    <Button variant="primary" onClick={() => handleRecupererClick(sortie)}>
+                                        Récupérer
+                                    </Button>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="8">Aucune donnée correspondante trouvée</td>
+                        </tr>
+                    )}
+                </tbody>
                         </table>
 
                         <Modal show={showModal} onHide={() => setShowModal(false)}>

@@ -25,7 +25,7 @@ function Menu() {
                 <div className="main-content">
                     <Nav />
                         <div className="content">
-                            Welcome in our platform 
+                            Bienvenue sur Car Management 2.0
                         </div>
                 </div>
         </div>

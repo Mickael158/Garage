@@ -316,6 +316,8 @@ function Pret() {
                                 <tr>
                                     <th>Date Début</th>
                                     <th>Date Fin</th>
+                                    <th>Demandeur</th>
+                                    <th>Direction</th>
                                     <th> Motif</th>
                                     <th>Distance</th>
                                     <th>Nombre de Personne</th>
@@ -328,7 +330,9 @@ function Pret() {
                                     currentItems.map((pret) => (
                                     <tr key={pret.demande_maintenence_valider.id_demande_pret_voiture}>
                                         <td>{pret.demande_maintenence_valider.date_debut}</td>
-                                        <td>{pret.demande_maintenence_valider.date_fin}</td>
+                                        <td>{pret.demande_maintenence_valider.date_debut}</td>
+                                        <td> {pret.demande_maintenence_valider.id_utilisateur.id_personnel.nom}</td>
+                                        <td>{pret.demande_maintenence_valider.id_utilisateur.id_personnel.id_fonction.nom_fonction}</td>
                                         <td>{pret.demande_maintenence_valider.id_motif_pret_voiture?.nom || 'N/A'}</td>
                                         <td>
                                             <i>

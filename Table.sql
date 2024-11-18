@@ -1,7 +1,3 @@
-\c postgres;
-drop database garage;
-create database garage;
-\c garage;
 
 CREATE TABLE fonction(
   id_fonction SERIAL PRIMARY KEY ,
@@ -275,6 +271,7 @@ CREATE TABLE reparation_rapide_voiture(
     id_voiture INT REFERENCES voiture(id_voiture),
     id_action INT REFERENCES action(id_action)
 );
+
 CREATE TABLE motif_pret_voiture(
   id_motif_pret_voiture SERIAL PRIMARY KEY ,
   nom VARCHAR
@@ -313,6 +310,12 @@ CREATE TABLE validation_pret_voiture(
   id_chauffeur INT REFERENCES chauffeur(id_chauffeur),
   dates date,
   remarque VARCHAR
+);
+create table controlle_pret(
+  id_controlle_pret SERIAL PRIMARY KEY ,
+  id_demande_pret_voiture INT REFERENCES demande_pret_voiture(id_demande_pret_voiture),
+  depart VARCHAR,
+  arriver VARCHAR
 );
 CREATE TABLE refus_pret_voiture(
     id_refus_pret_voiture SERIAL PRIMARY KEY ,
@@ -382,6 +385,3 @@ CREATE TABLE inscription(
     pswd VARCHAR,
     valid bool
 );
-
-
-

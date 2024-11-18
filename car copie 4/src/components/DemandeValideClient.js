@@ -67,14 +67,14 @@ function DemandeValide() {
                         <thead className="table-primary">
                             <tr>
                                 <th>Numero</th>
-                                <th>Immatricule</th>
+                                <th>Immatriculation</th>
                                 <th>Nom</th>
                                 <th>Service</th>
                                 <th>Remarque</th>
                                 <th>PV</th>
-                                <th>Proformat</th>
-                                <th>Reçu</th>
-                                <th>Voir Démarche</th>
+                                <th>Proforma</th>
+                                <th>Facture</th>
+                                {/* <th>Voir Démarche</th> */}
                             </tr>
                         </thead>
                         <tbody>
@@ -87,15 +87,15 @@ function DemandeValide() {
                                         <td>{validation.demandeMaintenence.id_utilisateur.id_personnel.id_service.nom_service}</td>
                                         <td>{validation.demandeMaintenence.remarque}</td>
                                         <td style={{ backgroundColor: validation.situation_pv === 'En attente' ? '#FFFF00' : '#90EE90' }}>
-                                            {validation.situation_pv}
+                                            {validation.situation_pv === 'En attente' ? validation.situation_pv : `N° ${validation.situation_pv}`}
                                         </td>
                                         <td style={{ backgroundColor: validation.situation_estimation === 'En attente' ? '#FFFF00' : '#90EE90' }}>
-                                            {validation.situation_estimation}
+                                            {validation.situation_estimation === 'En attente' ? validation.situation_estimation : `N° ${validation.situation_estimation}`}
                                         </td>
                                         <td style={{ backgroundColor: validation.situation_recu === 'En attente' ? '#FFFF00' : '#90EE90' }}>
-                                            {validation.situation_recu}
+                                            {validation.situation_recu === 'En attente' ? validation.situation_recu : `N° ${validation.situation_recu}`}
                                         </td>
-                                        <td>
+                                        {/* <td>
                                             <button
                                                 className="btn btn-info btn-sm"
                                                 title="Voir plus"
@@ -103,7 +103,7 @@ function DemandeValide() {
                                             >
                                                 <i className="fas fa-eye"></i> Voir plus
                                             </button>
-                                        </td>
+                                        </td> */}
                                     </tr>
                                 ))
                             ) : (

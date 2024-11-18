@@ -350,7 +350,7 @@ function Utilisateur() {
                     )}
 
                     <div className="table-container">
-                        <h3>Demandes en attente mots de passe oublier</h3>
+                        <h3>Demandes en attente mots de passe oubliés</h3>
                         <table className="table table-striped table-hover table-bordered">
                             <thead className="table-primary">
                                 <tr>
@@ -392,7 +392,7 @@ function Utilisateur() {
                         </table>
                     </div>
                     <div className="table-container">
-                        <h3>Demandes en attente nouveau Utilisateur</h3>
+                        <h3>Demandes en attente nouvel Utilisateur</h3>
                         <table className="table table-striped table-hover table-bordered">
                             <thead className="table-primary">
                                 <tr>

@@ -6,9 +6,9 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import { Form } from 'react-router-dom';
 
 function Pret() {
-
     const token = sessionStorage.getItem('token');
     const [idDemandePretVoiture, setIdDemandePretVoiture] = useState("");
 
@@ -125,6 +125,22 @@ function Pret() {
             console.error('Erreur de récupération des données', error);
         }
     };
+    const annulerPret = async (idDemandePretVoitureValeur) => {
+        try {
+            const response = await axios.get(`http://localhost:8080/Demande_pret_voiture/annulerPret/${idDemandePretVoitureValeur}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            console.log('Réponse:', response.data.data);
+            selectAllPret();
+            toast.success(response.data.data);
+        } catch (error) {
+            console.error('Erreur lors de l\'annulation de la demande de prêt voiture', error);
+            toast.error('Erreur lors de l\'annulation de la demande de prêt voiture');
+        }
+    };
+    
     const selectAll_Voiture = async (f , s , p) => {
         try {
             const response = await axios.get(`http://localhost:8080/voiture/selecAll_voiture_by_id_fonction_id_service_id_type_voiture/${f}/${s}/${p}`,
@@ -220,9 +236,9 @@ function Pret() {
 
     const getSituationStyle = (situation) => {
         switch(situation) {
-            case 'Demande refuser':
+            case 'Demande refusée':
                 return { backgroundColor: 'red', color: 'white' };
-            case 'Demande valider':
+            case 'Demande validée':
                 return { backgroundColor: 'green', color: 'white' };
             case 'En attente':
                 return { backgroundColor: 'yellow', color: 'black' };
@@ -238,21 +254,22 @@ function Pret() {
                         
                 <div className="table-wrapper">
                     <div className="table-container mt-4">  
-                        <table className="table table-striped table-hover table-responsive">
-                            <thead className="table-primary">
-                                <tr>
-                                    <th>Date Début</th>
-                                    <th>Date Fin</th>
-                                    <th> Motif</th>
-                                    <th> Utilisateur</th>
-                                    {/* <th> Voiture</th> */}
-                                    <th>Nombre de Personne </th>
-                                    <th>Etat</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {Array.isArray(pretData) && pretData.length > 0 ? (
-                                    pretData.map((pret) => (
+                    <table className="table table-striped table-hover table-responsive">
+                        <thead className="table-primary">
+                            <tr>
+                                <th>Date Début</th>
+                                <th>Date Fin</th>
+                                <th>Motif</th>
+                                <th>Utilisateur</th>
+                                {/* <th>Voiture</th> */}
+                                <th>Nombre de Personnes</th>
+                                <th>Etat</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {Array.isArray(pretData) && pretData.length > 0 ? (
+                                pretData.map((pret) => (
                                     <tr key={pret.demande_maintenence_valider.id_demande_pret_voiture}>
                                         <td>{pret.demande_maintenence_valider.date_debut}</td>
                                         <td>{pret.demande_maintenence_valider.date_fin}</td>
@@ -260,19 +277,41 @@ function Pret() {
                                         <td>{pret.demande_maintenence_valider.id_utilisateur?.id_personnel?.nom || 'N/A'}</td>
                                         {/* <td>{pret.id_voiture?.matricule || 'N/A'}</td> */}
                                         <td>{pret.demande_maintenence_valider.nbr_pers || 'N/A'}</td>
-                                        <td style={getSituationStyle(pret.situation)}>{pret.situation || 'N/A'}</td>
+                                        <td style={getSituationStyle(pret.situation)}>
+  {pret.situation === 'Demande refusée' ? (
+    'Demande refusée'
+  ) : pret.situation === 'Demande validée' ? (
+    <>
+      <p>{pret.validation_pret_voiture?.id_chauffeur?.id_personne?.nom || 'N/A'}</p>
+      <p>{pret.validation_pret_voiture?.id_voiture?.matricule || 'N/A'}</p>
+    </>
+  ) : (
+    pret.situation || 'N/A'
+  )}
+</td>
+
+                                        <td> 
+                                                <button 
+                                                    className="validate-button"
+                                                    title="Annuler"
+                                                    onClick={() => annulerPret(pret.demande_maintenence_valider.id_demande_pret_voiture)}
+                                                >
+                                                    Annuler
+                                                </button>
+                                        </td>
                                     </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan="8">Aucune donnée disponible</td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan="8">Aucune donnée disponible</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+
                         </div>
                     </div>
-
+                
 
             <ToastContainer />
         </div>

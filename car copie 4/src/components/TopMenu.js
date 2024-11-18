@@ -8,6 +8,7 @@ import '../styles/Top.css';
 function Top() {
 
     const token = sessionStorage.getItem('token');
+    const [Role, setRole] = useState('');
 
     const [countDemandeAttente, setCountDemandeAttente] = useState(0); // État pour le compteur
     const [countDemandeValide, setCountDemandeValide] = useState(0); // État pour le compteur des demandes validées
@@ -18,6 +19,18 @@ function Top() {
         // Logique de déconnexion (par exemple, supprimer le token)
         localStorage.removeItem('token'); // Exemple de suppression du token
         navigate('/'); // Redirige vers la page d'index
+    };
+    const role = async () => {
+        try {
+            const response = await axios.post('http://localhost:8080/Token/getRole', { utilisateur: token }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            setRole(String(response.data.data));
+        } catch (error) {
+            console.error('Erreur lors de la récupération du rôle', error);
+        }
     };
 
     const fetchCountDemandeAttente = async () => {
@@ -74,6 +87,7 @@ function Top() {
         fetchCountDemandeAttente(); // Appel de la fonction lors du chargement du composant
         fetchCountDemandeValide(); // Appel de la fonction pour les demandes validées
         fetchCountDemandePretNonValide(); // Appel de la fonction pour les demandes de prêt non validées
+        role();
     }, []);
 
     const fetchTotalCounts = () => {
@@ -86,13 +100,15 @@ function Top() {
                 <h1>Car Management</h1>
             </div>
             <div className="top-menu-right">
-                <a href="#" className="menu-item" title={`Total notifications: ${fetchTotalCounts()}`}>
-                    <FaBell className="notification-icon" />
-                    {fetchTotalCounts() > 0 && (
-                        <span className="badge bg-danger translate-middle">{fetchTotalCounts()}</span>
-                    )}
-                </a>
-                <a href="#" className="menu-item" onClick={handleLogout}>Deconnexion</a>
+                {Role === '1' && (
+                    <a href="#" className="menu-item" title={`Total notifications: ${fetchTotalCounts()}`}>
+                        <FaBell className="notification-icon" />
+                        {fetchTotalCounts() > 0 && (
+                            <span className="badge bg-danger translate-middle">{fetchTotalCounts()}</span>
+                        )}
+                    </a>
+                )}
+                <a href="#" className="menu-item" onClick={handleLogout}>Déconnexion</a>
             </div>
         </header>
     );

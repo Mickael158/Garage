@@ -5,17 +5,28 @@ import Nav from './Nav';
 import '../styles/Menu.css';
 import axios from 'axios';
 import '../styles/Form.css';
+import { toast, ToastContainer } from 'react-toastify';
+import { Button, Modal } from 'react-bootstrap';
 
 function VoirPlus() {
 
     const token = sessionStorage.getItem('token');
-
+    const [showImportModal, setShowImportModal] = useState(false);
     const [tab_pvData, settabpvData] = useState([]);
+    const [dateDebut, setDateDebut] = useState('');
+    const [dateFin, setDateFin] = useState('');
+    const [IdEstimation, setIdEstimation] = useState('');
     const [tab_estimationData, setTabEstimationData] = useState([]);
     const [tab_recuData, setTabRecuData] = useState([]);
     const location = useLocation();
     const { data } = location.state; // Récupérer les données de l'état
-
+    const handleShowImportModal = (id) => {
+        setShowImportModal(true);
+        setIdEstimation(id);
+    };
+    const handleCloseImportModal = () => {
+        setShowImportModal(false);
+    };
     const selectAll_Tab_PV = async () => {
         try {
             const response = await axios.get(`http://localhost:8080/TableauPv/find_TableauPvBy_id_demande_maintenence_valider/${data.id_demande_maintenence_valider}`,
@@ -25,12 +36,47 @@ function VoirPlus() {
                     }
                 }
             );
-            console.log('Données PV récupérées:', response.data); // Pour vérifier la structure des données
             settabpvData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données PV', error);
         }
     };
+    const insertEstimation = async (debut, fin, estimation) => {
+        try {
+            const response = await axios.post(`http://localhost:8080/Estimation/insertion_Estimation/${debut}/${fin}/${estimation}`, 
+                {},
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
+            toast.success('Données Modifier', {  
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            selectAll_Tab_Estimation();
+            setIdEstimation('');
+            setShowImportModal(false);
+        } catch (error) {
+            console.error('Erreur lors de l\'insertion de l\'estimation', error);
+            toast.error('Erreur lors de la Modification', {  // Notification d'erreur
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+    };
+    
 
     const selectAll_Tab_Estimation = async () => {
         try {
@@ -41,7 +87,6 @@ function VoirPlus() {
                     }
                 }
             );
-            console.log('Données Estimation récupérées:', response.data); // Pour vérifier la structure des données
             setTabEstimationData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données Estimation', error);
@@ -57,7 +102,6 @@ function VoirPlus() {
                     }
                 }
             );
-            console.log('Données Recu récupérées:', response.data); // Pour vérifier la structure des données
             setTabRecuData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données Recu', error);
@@ -152,7 +196,23 @@ function VoirPlus() {
                                       ESTIMATION  :  {tab_estimationData[0].id_estimation.numero_estimation} <br /><br /><br />
                                       Date :  {tab_estimationData[0].id_estimation.dates} <br />
                                       Numero Client   : {tab_estimationData[0].id_estimation.numero_client} <br></br>
-                                      Immatriculation: {tab_estimationData[0].id_estimation.id_demande_maintenence_valider.id_demande_maintenence.id_voiture.matricule} <br />
+                                      Immatriculation: {tab_estimationData[0].id_estimation.id_demande_maintenence_valider.id_demande_maintenence.id_voiture.matricule} <br /><br />
+                                      Date entrer: 
+                                                <button 
+                                                    className="btn btn-success" 
+                                                    onClick={() => handleShowImportModal(tab_estimationData[0].id_estimation.id_estimation)}
+                                                >
+                                                    {tab_estimationData[0].id_estimation.date_entre}
+                                                </button>
+                                                <br /><br />
+
+                                    Date sortie: 
+                                                <button 
+                                                    className="btn btn-success" 
+                                                    onClick={() => handleShowImportModal(tab_estimationData[0].id_estimation.id_estimation)}
+                                                >
+                                                    {tab_estimationData[0].id_estimation.date_fin}
+                                                </button>
                                       {/* Immatriculation : {tab_estimationData[0].id_pv.id_demande_maintenence_valider.id_demande_maintenence.id_voiture.matricule} <br />
                                       Genre : PV <br></br>
                                       Fonction : {tab_estimationData[0].id_pv.id_demande_maintenence_valider.id_demande_maintenence.id_voiture.id_fonction.nom_fonction} <br />
@@ -174,8 +234,6 @@ function VoirPlus() {
                                         <th>Reference</th>
                                         <th>Designation</th>
                                         <th>Prix Unitaire</th>
-                                        <th>Date Entrée</th>
-                                        <th>Date Sortie</th>
                                         <th>Quantité</th>
                                         <th>Montant</th>
                                         <th>Image</th>
@@ -188,12 +246,9 @@ function VoirPlus() {
                                                 <td>{estimation.reference}</td>
                                                 <td>{estimation.id_designation.nom_designation}</td>
                                                 <td>{estimation.p_u}</td>
-                                                <td>{estimation.id_estimation.date_entre}</td>
-                                                <td>{estimation.id_estimation.date_fin}</td>
                                                 <td>{estimation.qte}</td>
                                                 <td>{estimation.montant}</td>
                                                 <td>
-
                                                 <img src={`http://localhost:8080${estimation.id_estimation.image}`} style={{'width':'100%','height':'50px'}}/>
                                                 </td>
                                                 
@@ -212,7 +267,7 @@ function VoirPlus() {
                         <br /><br />
 
                         <div className="padding-top-black rounded">
-                            <h4>Reçu</h4>
+                            <h4>Facture</h4>
                         </div>
                         <div className="table-wrapper">
                         <div className="bg-light p-3 rounded">
@@ -268,6 +323,30 @@ function VoirPlus() {
                     </div>
                 </div>
             </div>
+            <Modal show={showImportModal} onHide={handleCloseImportModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Modifier de la date au conssesionnaire</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="mb-3">
+                        <label className="form-label">Entrer la date d'entrer :</label>
+                        <input type="date" className="form-control" value={dateDebut}
+                                        onChange={(e) => setDateDebut(e.target.value)}
+                                        required />
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label">Entrer la date de sortie :</label>
+                        <input type="date" className="form-control" value={dateFin}
+                                        onChange={(e) => setDateFin(e.target.value)}
+                                        required  />
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseImportModal}>Fermer</Button>
+                    <Button variant="primary" onClick={() => insertEstimation(dateDebut , dateFin , IdEstimation)} >Modifier</Button>
+                </Modal.Footer>
+            </Modal>
+            <ToastContainer />
         </div>
         
 

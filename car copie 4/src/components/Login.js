@@ -232,7 +232,7 @@ function Login() {
             <div className="d-flex justify-content-center w-100">
                 {!isPasswordReset && !showSignupForm && (
                     <div className="card shadow-lg p-4 me-3" style={{ maxWidth: '400px', width: '100%' }}>
-                        <h2 className="text-center mb-4">S\'identifier</h2>
+                        <h2 className="text-center mb-4">S'identifier</h2>
                         <form onSubmit={Authentification}>
                             <div className="mb-3">
                                 <label className="form-label"><i className="fas fa-user"></i> Immatriculation</label>
@@ -284,7 +284,7 @@ function Login() {
                                 <input type="text" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="Entrez votre matricule" />
                             </div>
                             <div className="mb-3">
-                                <label className="form-label">Fonction</label>
+                                <label className="form-label">Direction</label>
                                 <select className="form-select" value={idFonction} onChange={(e) => setIdFonction(e.target.value)} required>
                                     <option value="">Sélectionnez une fonction</option>
                                     {fonctionData.map(fonction => (
@@ -302,7 +302,7 @@ function Login() {
                                 </select>
                             </div>
                             <div className="mb-3">
-                                <label className="form-label">Poste</label>
+                                <label className="form-label">Fonction</label>
                                 <select className="form-select" value={idPoste} onChange={(e) => setIdPoste(e.target.value)} required>
                                     <option value="">Sélectionnez un poste</option>
                                     {posteData.map(poste => (
@@ -432,15 +432,15 @@ function Login() {
             <div className="contact-info text-center mt-4">
                 <div className="contact-item">
                     <i className="fas fa-map-marker-alt"></i>
-                    <span> Adresse : 123 Rue Exemple, Ville, Pays</span>
+                    <span> Adresse : Immeuble MEF Antaninarenina</span>
                 </div>
                 <div className="contact-item">
                     <i className="fas fa-phone-alt"></i>
-                    <span> Téléphone : +123 456 7890</span>
+                    <span> Téléphone : +261 32 11 096 11 / +261 32 11 090 46</span>
                 </div>
                 <div className="contact-item">
                     <i className="fas fa-envelope"></i>
-                    <span> Email : contact@entreprise.com</span>
+                    <span> Email : safdlog@gmail.com</span>
                 </div>
             </div>
         </div>
