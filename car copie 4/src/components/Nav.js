@@ -85,7 +85,7 @@ function Nav() {
 
     // Redirection en fonction du rôle
     useEffect(() => {
-        if (Role === '2' && !['/demande-entretien', '/pret'].includes(location.pathname)) {
+        if (Role === '2' && !['/demande-entretien', '/pret' , '/voirplusclient'].includes(location.pathname)) {
             navigate('/demande-entretien'); // Redirige vers la route autorisée
         }
     }, [Role, location.pathname, navigate]);

@@ -74,7 +74,7 @@ function DemandeValide() {
                                 <th>PV</th>
                                 <th>Proforma</th>
                                 <th>Facture</th>
-                                {/* <th>Voir Démarche</th> */}
+                                <th>Voir Démarche</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -95,7 +95,7 @@ function DemandeValide() {
                                         <td style={{ backgroundColor: validation.situation_recu === 'En attente' ? '#FFFF00' : '#90EE90' }}>
                                             {validation.situation_recu === 'En attente' ? validation.situation_recu : `N° ${validation.situation_recu}`}
                                         </td>
-                                        {/* <td>
+                                        <td>
                                             <button
                                                 className="btn btn-info btn-sm"
                                                 title="Voir plus"
@@ -103,7 +103,7 @@ function DemandeValide() {
                                             >
                                                 <i className="fas fa-eye"></i> Voir plus
                                             </button>
-                                        </td> */}
+                                        </td>
                                     </tr>
                                 ))
                             ) : (
