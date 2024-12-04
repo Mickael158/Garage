@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 function Payement() {
     const token=sessionStorage.getItem("token");
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [data, setData] = useState('');
     const [payementData, setPayementData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -21,14 +21,14 @@ function Payement() {
     const ajouterPayement = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Mode_payement/insertion_Mode_payement`, 
+            const response = await axios.post(`${apiUrl}/Mode_payement/insertion_Mode_payement`, 
                 { nom: data }, {
                 headers: {
                     'content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
             });
-            console.log('Insertion réussie:', response.data);
+            
             toast.success('Données bien insérées!', {
                 position: "top-right",
                 autoClose: 3000,
@@ -56,7 +56,7 @@ function Payement() {
 
     const selectAll_Payement = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Mode_payement/selectAll_Mode_payement',
+            const response = await axios.get(`${apiUrl}/Mode_payement/selectAll_Mode_payement`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

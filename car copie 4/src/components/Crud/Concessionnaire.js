@@ -15,20 +15,19 @@ function Concessionnaire() {
     const [concessionnaireData, setConcessionnaireData] = useState([]);
     const [lieux, setLieux] = useState([]);
     const [selectedLieu, setSelectedLieu] = useState('');
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     
 
     const enregistrerConcessionnaire = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8080/Concessionaire/enregistrerConcessionnaire', 
+            const response = await axios.post(`${apiUrl}/Concessionaire/enregistrerConcessionnaire`, 
                 { nom: data, id_lieu: selectedLieu }, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
             });
-            console.log('Insertion réussie:', response.data);
             toast.success('Données bien insérées!', {  // Afficher une notification de succès
                 position: "top-right",
                 autoClose: 3000,
@@ -57,14 +56,13 @@ function Concessionnaire() {
 
     const selectAll_Concessionnaire = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Concessionaire/selectAll_Action_byMaintence',
+            const response = await axios.get(`${apiUrl}/Concessionaire/selectAll_Action_byMaintence`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            console.log('Données récupérées:', response.data);
             setConcessionnaireData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -73,14 +71,13 @@ function Concessionnaire() {
 
     const selectAll_Lieu = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Lieu/selectAll_lieu',
+            const response = await axios.get(`${apiUrl}/Lieu/selectAll_lieu`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            console.log('Données récupérées:', response.data); 
             setLieux(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);

@@ -10,7 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 function DemandeValide() {
 
     const token = sessionStorage.getItem('token');
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [remarqueData, setRemarqueData] = useState('');
     const [remarqueProforamatData, setRemarqueProforamatData] = useState('');
     const [vendeurData, setVendeurData] = useState('');
@@ -71,7 +71,7 @@ function DemandeValide() {
 
     const selectAllActionMaintenanceValid = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/demande_maintenence_valider/selecAll_demande_maintenence_validation',
+            const response = await axios.get(`${apiUrl}/demande_maintenence_valider/selecAll_demande_maintenence_validation`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -86,14 +86,14 @@ function DemandeValide() {
 
     const selectAll_Systeme = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Systeme/selecAll_Systeme',
+            const response = await axios.get(`${apiUrl}/Systeme/selecAll_Systeme`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            // console.log('Données récupérées:', response.data);  // Pour vérifier la structure des données
+            
             setSystemeData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -102,14 +102,14 @@ function DemandeValide() {
 
     const selectAll_Defaillance = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Defaillance/selectAll_Defaillance',
+            const response = await axios.get(`${apiUrl}/Defaillance/selectAll_Defaillance`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            // console.log('Données récupérées:', response.data);  // Pour vérifier la structure des données
+            
             setDefaillanceData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -117,14 +117,14 @@ function DemandeValide() {
     };
     const selectAll_Designation = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Action/selectAll_enregistrerDesignation',
+            const response = await axios.get(`${apiUrl}/Action/selectAll_enregistrerDesignation`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            // console.log('Données récupérées:', response.data);
+            
             setDesignationData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -133,14 +133,14 @@ function DemandeValide() {
 
     const selectAll_Action = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Action/selectAll_Action',
+            const response = await axios.get(`${apiUrl}/Action/selectAll_Action`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            // console.log('Données récupérées:', response.data);  // Log to check data structure
+            
             setActionData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -149,14 +149,14 @@ function DemandeValide() {
 
     const selectAll_Concessionnaire = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Concessionaire/selectAll_Action_byMaintence',
+            const response = await axios.get(`${apiUrl}/Concessionaire/selectAll_Action_byMaintence`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            // console.log('Données récupérées:', response.data);
+            
             setConcessionnaireData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -164,14 +164,14 @@ function DemandeValide() {
     };
     const selectAll_ModePayement = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Mode_payement/selectAll_Mode_payement',
+            const response = await axios.get(`${apiUrl}/Mode_payement/selectAll_Mode_payement`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            // console.log('Données récupérées:', response.data);
+            
             setModePayementData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -287,7 +287,7 @@ function DemandeValide() {
     const handleSubmiPVt = async (event) => {
         event.preventDefault();
         try {
-            await axios.post('http://localhost:8080/submit_pv', {
+            await axios.post(`${apiUrl}/submit_pv`, {
                 ...pvData,
                 id_demande: selectedRequest.id_demande_maintenence_valider
             });
@@ -308,12 +308,11 @@ function DemandeValide() {
                 ordre_de_priorite: row.input2
             }));
     
-            // Affiche les données envoyées pour vérification
-            console.log('Payload:', payload);
+            
     
             // Envoie des données sous forme d'un tableau
             const response = await axios.post(
-                'http://localhost:8080/TableauPv/enregistrerTableausPvs', 
+                `${apiUrl}/TableauPv/enregistrerTableausPvs`, 
                 payload, 
                 {
                     headers: { 
@@ -323,7 +322,7 @@ function DemandeValide() {
                 }
             );
     
-            console.log('Insertion du tableau réussie:', response.data);
+            
             handleCloseModalPV();
         } catch (error) {
             console.error('Erreur lors de l\'insertion du tableau', error);
@@ -333,7 +332,7 @@ function DemandeValide() {
     const insert_PV = async (event) => {
         event.preventDefault();
         try {
-            console.log(token);
+            
             const data = new FormData();
 
             data.append('credentials', JSON.stringify({
@@ -348,7 +347,7 @@ function DemandeValide() {
                 data.append('image', image);
               });
             
-            const response = await axios.post(`http://localhost:8080/Pv/insertion_Pv`,data,
+            const response = await axios.post(`${apiUrl}/Pv/insertion_Pv`,data,
                 {
                     headers: { 
                         'Content-Type': 'multipart/form-data',
@@ -394,14 +393,12 @@ function DemandeValide() {
                 qte: row.input4,
             }));
             
-        // console.log("pro: ", payload);
-    
-            // Affiche les données envoyées pour vérification
-            // console.log('Payload:', payload);
+            
+            
     
             // Envoie des données sous forme d'un tableau
             const response = await axios.post(
-                'http://localhost:8080/Tabeau_Estimation/insertion_Liste_action_demande_maintenence_', 
+                `${apiUrl}/Tabeau_Estimation/insertion_Liste_action_demande_maintenence_`, 
                 payload, 
                 {
                     headers: { 
@@ -411,7 +408,7 @@ function DemandeValide() {
                 }
             );
     
-            console.log('Insertion du tableau réussie:', response.data);
+            
             handleCloseModalProforamat();
         } catch (error) {
             console.error('Erreur lors de l\'insertion du tableau', error);
@@ -440,7 +437,7 @@ function DemandeValide() {
       
         try {
             
-            const response = await axios.post(`http://localhost:8080/Estimation/insertion_Estimation`, 
+            const response = await axios.post(`${apiUrl}/Estimation/insertion_Estimation`, 
                 datas, 
                 {
                     headers: { 
@@ -449,7 +446,7 @@ function DemandeValide() {
                       },
                 }
             );
-            console.log('Insertion réussie:', response.data);
+            
             selectAll_Action();  
             insert_proforamat_Tab();
             toast.success('Données bien insérées!', {  
@@ -487,15 +484,11 @@ function DemandeValide() {
                 p_u: row.input3,
                 qte: row.input4,
             }));
-            
-        console.log("recu tab : ", payload);
     
-            // Affiche les données envoyées pour vérification
-            console.log('Payload:', payload);
     
             // Envoie des données sous forme d'un tableau
             const response = await axios.post(
-                'http://localhost:8080/Tabeau_Recu/insertion_Liste_action_demande_maintenence_', 
+                `${apiUrl}/Tabeau_Recu/insertion_Liste_action_demande_maintenence_`, 
                 payload, 
                 {
                     headers: { 
@@ -505,7 +498,6 @@ function DemandeValide() {
                 }
             );
     
-            console.log('Insertion du tableau réussie:', response.data);
             handleCloseModalProforamat();
         } catch (error) {
             console.error('Erreur lors de l\'insertion du tableau', error);
@@ -530,7 +522,7 @@ function DemandeValide() {
           });
         try {
 
-            const response = await axios.post(`http://localhost:8080/Recu/insertion_Recu`, 
+            const response = await axios.post(`${apiUrl}/Recu/insertion_Recu`, 
                 datass, 
 
                 {
@@ -541,7 +533,6 @@ function DemandeValide() {
                 }
                 
             );
-            console.log('Insertion réussie:', response.data.data);
             selectAll_Action();  
             insert_Recu_Tab();
             toast.success('Données bien insérées!', { 
@@ -604,7 +595,7 @@ function DemandeValide() {
     // Fonctions pour vérifier l'existence des documents
     const checkPvExists = async (id_demande_maintenence_valider) => {
         try {
-            const response = await axios.get(`http://localhost:8080/TableauPv/find_TableauPvBy_id_demande_maintenence_valider/${id_demande_maintenence_valider}`,
+            const response = await axios.get(`${apiUrl}/TableauPv/find_TableauPvBy_id_demande_maintenence_valider/${id_demande_maintenence_valider}`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -622,7 +613,7 @@ function DemandeValide() {
 
     const checkProformatExists = async (id_demande_maintenence_valider) => {
         try {
-            const response = await axios.get(`http://localhost:8080/Tabeau_Estimation/find_Tableau_EstimationBy_id_demande_maintenence_valider/${id_demande_maintenence_valider}`,
+            const response = await axios.get(`${apiUrl}/Tabeau_Estimation/find_Tableau_EstimationBy_id_demande_maintenence_valider/${id_demande_maintenence_valider}`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -640,7 +631,7 @@ function DemandeValide() {
 
     const checkRecuExists = async (id_demande_maintenence_valider) => {
         try {
-            const response = await axios.get(`http://localhost:8080/Tabeau_Recu/find_Tableau_RecuBy_id_demande_maintenence_valider/${id_demande_maintenence_valider}`,
+            const response = await axios.get(`${apiUrl}/Tabeau_Recu/find_Tableau_RecuBy_id_demande_maintenence_valider/${id_demande_maintenence_valider}`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 function Modif() {
     const token=sessionStorage.getItem("token");
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [data, setData] = useState('');
     const [modifData, setModifData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -21,14 +21,14 @@ function Modif() {
     const ajouterModif = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Motif_pret_voiture/insertion_Motif_pret_voiture`, 
+            const response = await axios.post(`${apiUrl}/Motif_pret_voiture/insertion_Motif_pret_voiture`, 
                 { nom: data }, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
             });
-            console.log('Insertion réussie:', response.data);
+            
             toast.success('Données bien insérées!', {
                 position: "top-right",
                 autoClose: 3000,
@@ -56,7 +56,7 @@ function Modif() {
 
     const selectAllModif = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Motif_pret_voiture/selectAll_Motif_pret_voiture',
+            const response = await axios.get(`${apiUrl}/Motif_pret_voiture/selectAll_Motif_pret_voiture`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

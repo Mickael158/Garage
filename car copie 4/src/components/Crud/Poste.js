@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function Poste() {
     const token=sessionStorage.getItem("token");
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [nom, setNom] = useState('');
     const [posteData, setPosteData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -19,7 +19,7 @@ function Poste() {
     const insertionPoste = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Poste/insertion_Poste`, 
+            const response = await axios.post(`${apiUrl}/Poste/insertion_Poste`, 
                 { nom: nom }, {
                 headers: {
                     'content-Type': 'application/json',
@@ -27,7 +27,7 @@ function Poste() {
 
                 },
             });
-            console.log('Insertion réussie:', response.data);
+            
             toast.success('Poste bien inséré!', {
                 position: "top-right",
                 autoClose: 3000,
@@ -55,14 +55,14 @@ function Poste() {
 
     const selectAllPoste = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Poste/selectAll_Poste',
+            const response = await axios.get(`${apiUrl}/Poste/selectAll_Poste`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            console.log('Données récupérées:', response.data);
+            
             setPosteData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);

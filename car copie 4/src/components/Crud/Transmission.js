@@ -10,7 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 function Transmission() {
 
     const token=sessionStorage.getItem("token");
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [data, setData] = useState('');
     const [fonctionData, setFonctionData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -22,14 +22,14 @@ function Transmission() {
     const transmission = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/transmision/insertion_Transmision`, 
+            const response = await axios.post(`${apiUrl}/transmision/insertion_Transmision`, 
                 { nom_transmission: data }, {
                 headers: {
                     'content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
                 },
             });
-            console.log('Insertion réussie:', response.data);
+            
             toast.success('Données bien insérées!', {  // Afficher une notification de succès
                 position: "top-right",
                 autoClose: 3000,
@@ -58,14 +58,14 @@ function Transmission() {
 
     const selectAll_Transmision = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/transmision/selectAll_Transmision',
+            const response = await axios.get(`${apiUrl}/transmision/selectAll_Transmision`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            console.log('Données récupérées:', response.data);  // Pour vérifier la structure des données
+            
             setFonctionData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -74,7 +74,7 @@ function Transmission() {
 
     useEffect(() => {
         selectAll_Transmision();
-        console.log("Set ", fonctionData)
+        
     }, []);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);

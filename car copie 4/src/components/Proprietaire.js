@@ -22,7 +22,7 @@ function Proprietaire() {
     const [selectedProprietaire, setSelectedProprietaire] = useState(null);
     const [showImportModal, setShowImportModal] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [personnelData, setPersonnelData] = useState([]);
     const [proprietaireData, setProprietaireData] = useState([]);
     const [voitureData, setVoitureData] = useState([]); // Assurez-vous que c'est un tableau vide par défaut
@@ -67,7 +67,7 @@ function Proprietaire() {
         if (event) event.preventDefault(); // Vérifiez si l'événement est défini
         try {
             // Insérer les données du propriétaire
-            const response = await axios.post('http://localhost:8080/Proprietere_voiture/insertion_Proprietere_voiture', {
+            const response = await axios.post(`${apiUrl}/Proprietere_voiture/insertion_Proprietere_voiture`, {
                 id_personnel: personnel,
                 id_voiture: voiture,
                 id_utilisateur: token,
@@ -110,7 +110,7 @@ function Proprietaire() {
 
     const rendreVoiture = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/Rendu_voiture/insertion_Rendu_voiture', {
+            const response = await axios.post(`${apiUrl}/Rendu_voiture/insertion_Rendu_voiture`, {
                 id_utilisateur: token,
                 id_proprietere_voiture: idProprietaire,
                 dates: date,
@@ -131,7 +131,7 @@ function Proprietaire() {
 
     const selectAllProprietaire = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Proprietere_voiture/selectAll_voiture_have_proprietere',
+            const response = await axios.get(`${apiUrl}/Proprietere_voiture/selectAll_voiture_have_proprietere`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -150,7 +150,7 @@ function Proprietaire() {
 
     const selectAll_Personnel = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/personnel/selectAll_personnel',
+            const response = await axios.get(`${apiUrl}/personnel/selectAll_personnel`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -171,7 +171,7 @@ function Proprietaire() {
 
     const selectAll_Voiture = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/voiture/SelectAll_voiture_not_proprietere',
+            const response = await axios.get(`${apiUrl}/voiture/SelectAll_voiture_not_proprietere`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -208,7 +208,7 @@ function Proprietaire() {
         formData.append('file', selectedFile);
 
         try {
-            const response = await axios.post(`http://localhost:8080/Import_proprietere_voiture/insertion_Import_proprietere_voiture/${selectedFile.name}/${token}`, formData, {
+            const response = await axios.post(`${apiUrl}/Import_proprietere_voiture/insertion_Import_proprietere_voiture/${selectedFile.name}/${token}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`

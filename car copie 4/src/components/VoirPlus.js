@@ -9,7 +9,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import { Button, Modal } from 'react-bootstrap';
 
 function VoirPlus() {
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const token = sessionStorage.getItem('token');
     const [showImportModal, setShowImportModal] = useState(false);
     const [tab_pvData, settabpvData] = useState([]);
@@ -29,7 +29,7 @@ function VoirPlus() {
     };
     const selectAll_Tab_PV = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/TableauPv/find_TableauPvBy_id_demande_maintenence_valider/${data.id_demande_maintenence_valider}`,
+            const response = await axios.get(`${apiUrl}/TableauPv/find_TableauPvBy_id_demande_maintenence_valider/${data.id_demande_maintenence_valider}`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -43,7 +43,7 @@ function VoirPlus() {
     };
     const insertEstimation = async (debut, fin, estimation) => {
         try {
-            const response = await axios.post(`http://localhost:8080/Estimation/insertion_Estimation/${debut}/${fin}/${estimation}`, 
+            const response = await axios.post(`${apiUrl}/Estimation/insertion_Estimation/${debut}/${fin}/${estimation}`, 
                 {},
                 {
                     headers: {
@@ -80,7 +80,7 @@ function VoirPlus() {
 
     const selectAll_Tab_Estimation = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/Tabeau_Estimation/find_Tableau_EstimationBy_id_demande_maintenence_valider/${data.id_demande_maintenence_valider}`,
+            const response = await axios.get(`${apiUrl}/Tabeau_Estimation/find_Tableau_EstimationBy_id_demande_maintenence_valider/${data.id_demande_maintenence_valider}`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -95,7 +95,7 @@ function VoirPlus() {
 
     const selectAll_Tab_Recu = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/Tabeau_Recu/find_Tableau_RecuBy_id_demande_maintenence_valider/${data.id_demande_maintenence_valider}`,
+            const response = await axios.get(`${apiUrl}/Tabeau_Recu/find_Tableau_RecuBy_id_demande_maintenence_valider/${data.id_demande_maintenence_valider}`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -167,7 +167,7 @@ function VoirPlus() {
                                                 <td>{pv.observation}</td>
                                                 <td>{pv.ordre_de_priorite}</td>
                                                 <td>
-                                                    <img src={`http://localhost:8080${pv.id_pv.image}`} style={{'width':'100%','height':'50px'}}/>
+                                                    <img src={`${apiUrl}${pv.id_pv.image}`} style={{'width':'100%','height':'50px'}}/>
                                                 </td>
                                             </tr>
                                         ))
@@ -249,7 +249,7 @@ function VoirPlus() {
                                                 <td>{estimation.qte}</td>
                                                 <td>{estimation.montant}</td>
                                                 <td>
-                                                <img src={`http://localhost:8080${estimation.id_estimation.image}`} style={{'width':'100%','height':'50px'}}/>
+                                                <img src={`${apiUrl}${estimation.id_estimation.image}`} style={{'width':'100%','height':'50px'}}/>
                                                 </td>
                                                 
                                             </tr>
@@ -308,7 +308,7 @@ function VoirPlus() {
                                                 <td>{recu.qte}</td>
                                                 <td>{recu.montant}</td>
                                                 <td> 
-                                                <img src={`http://localhost:8080${recu.id_recu.image}`} style={{'width':'100%','height':'50px'}}/>
+                                                <img src={`${apiUrl}${recu.id_recu.image}`} style={{'width':'100%','height':'50px'}}/>
                                                     </td>
                                             </tr>
                                         ))

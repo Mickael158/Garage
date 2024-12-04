@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 function TypeLieu() {
     const token=sessionStorage.getItem("token");
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [data, setData] = useState('');
     const [fonctionData, setFonctionData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -18,7 +18,7 @@ function TypeLieu() {
     const lieu = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/type_lieu/insertion_type_lieu`, 
+            const response = await axios.post(`${apiUrl}/type_lieu/insertion_type_lieu`, 
                 { nom_type_lieu: data }, {
                 headers: {
                     'content-Type': 'application/json',
@@ -26,7 +26,7 @@ function TypeLieu() {
 
                 },
             });
-            console.log('Insertion réussie:', response.data);
+            
             toast.success('Données bien insérées!', {
                 position: "top-right",
                 autoClose: 3000,
@@ -54,7 +54,7 @@ function TypeLieu() {
 
     const selectAll_Lieu = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/type_lieu/selectAll_type_lieu',
+            const response = await axios.get(`${apiUrl}/type_lieu/selectAll_type_lieu`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

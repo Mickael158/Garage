@@ -27,7 +27,7 @@ function EntreePiece() {
     const [etatPieceData, setEtatPieceData] = useState([]);
     const [designations, setDesignations] = useState([]);
     const [modelVoitures, setModelVoitures] = useState([]);
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const designationOptions = designations.map(designation => ({
         value: designation.id_designation,
         label: designation.nom_designation
@@ -50,7 +50,7 @@ function EntreePiece() {
     const handleInsertion = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Entre_piece/insertion_Entre_piece`,  // Changement de l'URL
+            const response = await axios.post(`${apiUrl}/Entre_piece/insertion_Entre_piece`,  // Changement de l'URL
                 {
                     id_utilisateur: token,
                     id_designation: idDesignation,
@@ -91,7 +91,7 @@ function EntreePiece() {
 
     const selectAllEntreePiece = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Entre_piece/selectAll_Entre_piece',
+            const response = await axios.get(`${apiUrl}/Entre_piece/selectAll_Entre_piece`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -106,7 +106,7 @@ function EntreePiece() {
 
     const selectAllEtatPiece = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Etat_piece/selectAll_Etat_piece',
+            const response = await axios.get(`${apiUrl}/Etat_piece/selectAll_Etat_piece`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -121,7 +121,7 @@ function EntreePiece() {
 
     const selectAll_Designation = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Action/selectAll_enregistrerDesignation',
+            const response = await axios.get(`${apiUrl}/Action/selectAll_enregistrerDesignation`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -136,7 +136,7 @@ function EntreePiece() {
 
     const selectAll_ModelVoiture = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/model/selectAll_Model',
+            const response = await axios.get(`${apiUrl}/model/selectAll_Model`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -167,7 +167,7 @@ function EntreePiece() {
 
     const selectAllLieu = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Lieu/selectAll_lieu',
+            const response = await axios.get(`${apiUrl}/Lieu/selectAll_lieu`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';  // Import des styles Toastify
 function VisiteMedical() {
 
     const token=sessionStorage.getItem("token");
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [dateDebut, setDateDebut] = useState('');
     const [dateFin, setDateFin] = useState('');
     const [idChauffeur, setIdChauffeur] = useState('');
@@ -21,7 +21,7 @@ function VisiteMedical() {
     const insertVisiteMedical = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Visite_medical/insertion_Visite_medical`, 
+            const response = await axios.post(`${apiUrl}/Visite_medical/insertion_Visite_medical`, 
                 { date_debut: dateDebut, date_fin: dateFin, id_chauffeur: idChauffeur }, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ function VisiteMedical() {
 
                 },
             });
-            console.log('Insertion réussie:', response.data);
+            
             toast.success('Visite médicale bien insérée!', {  // Afficher une notification de succès
                 position: "top-right",
                 autoClose: 3000,
@@ -56,14 +56,14 @@ function VisiteMedical() {
 
     const fetchAllVisites = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Visite_medical/selectAll_Visite_medical',
+            const response = await axios.get(`${apiUrl}/Visite_medical/selectAll_Visite_medical`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            console.log('Données récupérées:', response.data);  // Pour vérifier la structure des données
+            
             setVisiteData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -72,7 +72,7 @@ function VisiteMedical() {
 
     const fetchAllChauffeurs = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Chauffeur/selectAll_Chauffeur',
+            const response = await axios.get(`${apiUrl}/Chauffeur/selectAll_Chauffeur`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

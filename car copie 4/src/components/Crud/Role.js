@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 function Role() {
     const token=sessionStorage.getItem("token");
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [data, setData] = useState('');
     const [roleData, setRoleData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -21,7 +21,7 @@ function Role() {
     const ajouterRole = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/role/insertion_role`, 
+            const response = await axios.post(`${apiUrl}/role/insertion_role`, 
                 { nom_role: data }, {
                 headers: {
                     'content-Type': 'application/json',
@@ -29,7 +29,7 @@ function Role() {
 
                 },
             });
-            console.log('Insertion réussie:', response.data);
+            
             toast.success('Données bien insérées!', {
                 position: "top-right",
                 autoClose: 3000,
@@ -57,7 +57,7 @@ function Role() {
 
     const selectAll_Role = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/role/selectAll_role',
+            const response = await axios.get(`${apiUrl}/role/selectAll_role`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

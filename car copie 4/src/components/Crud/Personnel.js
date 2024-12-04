@@ -12,7 +12,7 @@ import { Pagination } from 'react-bootstrap';
 function Personnel() {
 
     const token=sessionStorage.getItem("token");
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [nomPersonnel, setNomPersonnel] = useState('');
     const [matricule, setMatricule] = useState('');
     const [fonction, setFonction] = useState('');
@@ -57,7 +57,7 @@ function Personnel() {
         event.preventDefault();
         try {
             const response = await axios.post(
-                'http://localhost:8080/personnel/insertion_personnel',
+                `${apiUrl}/personnel/insertion_personnel`,
                 {
                     nom: nomPersonnel,
                     matricule: matricule,
@@ -73,7 +73,7 @@ function Personnel() {
                     },
                 }
             );
-            console.log('Insertion réussie:', response.data);
+            
             toast.success('Poste bien inséré!', {
                 position: "top-right",
                 autoClose: 3000,
@@ -101,14 +101,14 @@ function Personnel() {
 
     const selectAll_Fonction = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Fonction/selectAll_Fonction',
+            const response = await axios.get(`${apiUrl}/Fonction/selectAll_Fonction`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            console.log('Données récupérées:', response.data);  // Pour vérifier la structure des données
+            
             setFonctionData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -117,14 +117,14 @@ function Personnel() {
 
     const selectAll_Service = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Service/selectAll_service',
+            const response = await axios.get(`${apiUrl}/Service/selectAll_service`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            console.log('Données récupérées:', response.data);  // Pour vérifier la structure des données
+            
             setServiceData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -133,7 +133,7 @@ function Personnel() {
 
     const selectAll_Personnel = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/personnel/selectAll_personnel',
+            const response = await axios.get(`${apiUrl}/personnel/selectAll_personnel`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -148,14 +148,13 @@ function Personnel() {
 
     const selectAllPoste = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Poste/selectAll_Poste',
+            const response = await axios.get(`${apiUrl}/Poste/selectAll_Poste`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            console.log('Données des postes récupérées:', response.data);
             setPosteData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des postes', error);

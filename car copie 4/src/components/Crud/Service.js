@@ -10,7 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 function Service() {
 
     const token=sessionStorage.getItem("token");
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [data, setData] = useState('');
     const [fonctionData, setFonctionData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -19,14 +19,14 @@ function Service() {
     const service = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Service/insertion_Service`, 
+            const response = await axios.post(`${apiUrl}/Service/insertion_Service`, 
                 { nom_service: data }, {
                 headers: {
                     'content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
                 },
             });
-            console.log('Insertion réussie:', response.data);
+            
             toast.success('Données bien insérées!', {  // Afficher une notification de succès
                 position: "top-right",
                 autoClose: 3000,
@@ -55,14 +55,14 @@ function Service() {
 
     const selectAll_Service = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Service/selectAll_service',
+            const response = await axios.get(`${apiUrl}/Service/selectAll_service`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            console.log('Données récupérées:', response.data);  // Pour vérifier la structure des données
+            
             setFonctionData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -71,7 +71,7 @@ function Service() {
 
     useEffect(() => {
         selectAll_Service();
-        console.log("Set ", fonctionData)
+        
     }, []);
 
 

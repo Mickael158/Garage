@@ -14,7 +14,7 @@ function ReparationRapide() {
     const [date, setDate] = useState('');
     const [remarque, setRemarque] = useState('');
     const [idAction, setIdAction] = useState('');
-    
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [voitures, setVoitures] = useState([]); 
     const [selectedVoiture, setSelectedVoiture] = useState('');  // Voiture sélectionnée
     const [actionData, setActionData] = useState([]);
@@ -57,7 +57,7 @@ function ReparationRapide() {
             return;
         }
         try {
-            const response = await axios.post(`http://localhost:8080/Reparation_rapide_voiture/insertion_Reparation_rapide_voiture`, 
+            const response = await axios.post(`${apiUrl}/Reparation_rapide_voiture/insertion_Reparation_rapide_voiture`, 
                 {
                     date: date,
                     remarque: remarque,
@@ -81,7 +81,7 @@ function ReparationRapide() {
 
     const selectAllReparation = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Reparation_rapide_voiture/selectAll_Reparation_rapide_voiture',
+            const response = await axios.get(`${apiUrl}/Reparation_rapide_voiture/selectAll_Reparation_rapide_voiture`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -96,7 +96,7 @@ function ReparationRapide() {
 
     const selectAll_Action = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Action/selectAll_Action',
+            const response = await axios.get(`${apiUrl}/Action/selectAll_Action`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -111,7 +111,7 @@ function ReparationRapide() {
 
     const fetchVoitures = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/voiture/selectAll_voiture',
+            const response = await axios.get(`${apiUrl}/voiture/selectAll_voiture`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

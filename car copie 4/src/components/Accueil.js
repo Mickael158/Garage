@@ -6,7 +6,6 @@ function Accueil() {
     const [showRequestForm, setShowRequestForm] = useState(false);
     const [vehicleReg, setVehicleReg] = useState('');
     const [submittedReg, setSubmittedReg] = useState('');
-    
     const handleFormDisplay = () => {
         setShowForm(!showForm);
         setShowRequestForm(false); // Hide request form when showing the vehicle insertion form

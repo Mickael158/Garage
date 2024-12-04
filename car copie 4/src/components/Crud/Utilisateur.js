@@ -33,12 +33,12 @@ function Utilisateur() {
 
     const [showModal, setShowModal] = useState(false);
     const [selectedDemande, setSelectedDemande] = useState(null);
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const ajouterUtilisateur = async (event) => {
         event.preventDefault();
         try {
             const response = await axios.post(
-                'http://localhost:8080/utilisateur/insertion_utilisateur',
+                `${apiUrl}/utilisateur/insertion_utilisateur`,
                 {
                     id_personnel: personnel,
                     pswd: motDePasse,
@@ -80,7 +80,7 @@ function Utilisateur() {
 
     const selectAll_Role = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/role/selectAll_role',
+            const response = await axios.get(`${apiUrl}/role/selectAll_role`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -95,7 +95,7 @@ function Utilisateur() {
 
     const selectAll_Personnel = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/personnel/selectAll_personnel',
+            const response = await axios.get(`${apiUrl}/personnel/selectAll_personnel`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -110,7 +110,7 @@ function Utilisateur() {
 
     const selectDemandesAttente = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Demande_validation/select_demande_attente',
+            const response = await axios.get(`${apiUrl}/Demande_validation/select_demande_attente`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -125,7 +125,7 @@ function Utilisateur() {
     };
     const selectDemandesutilisateur = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Inscription/Demande_validation_inscription',
+            const response = await axios.get(`${apiUrl}/Inscription/Demande_validation_inscription`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -141,7 +141,7 @@ function Utilisateur() {
 
     const selectDemandesVerifiees = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Demande_validation/select_demande_verifier',
+            const response = await axios.get(`${apiUrl}/Demande_validation/select_demande_verifier`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -172,7 +172,7 @@ function Utilisateur() {
         event.preventDefault();
         try {
             const response = await axios.post(
-                'http://localhost:8080/utilisateur/mdp_oublier',
+                `${apiUrl}/utilisateur/mdp_oublier`,
                 {
                     matricule: matricule,
                     pswd: nouveauMotDePasse,
@@ -216,7 +216,7 @@ function Utilisateur() {
         event.preventDefault();
         try {
             const response = await axios.post(
-                'http://localhost:8080/Demande_validation/code_verification',
+                `${apiUrl}/Demande_validation/code_verification`,
                 {
                     user: selectedDemande.id_demande_validation.toString(),
                     code: codeVerification
@@ -240,7 +240,7 @@ function Utilisateur() {
     const Validation = async ( users) => {
         try {
             const response = await axios.post(
-                'http://localhost:8080/Inscription/validation',
+                `${apiUrl}/Inscription/validation`,
                 {
                     id: users
                 },

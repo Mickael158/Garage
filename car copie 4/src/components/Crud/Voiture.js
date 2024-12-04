@@ -11,7 +11,7 @@ import { Pagination} from 'react-bootstrap';
 function Voiture() {
 
     const token = sessionStorage.getItem("token");
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [data, setData] = useState('');
     const [voitureData, setVoitureData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -43,7 +43,7 @@ function Voiture() {
         event.preventDefault();
         try {
             const response = await axios.post(
-                'http://localhost:8080/voiture/insertion_voiture',
+                `${apiUrl}/voiture/insertion_voiture`,
                 {
                     matricule: immatriculation,
                     place: places,
@@ -61,7 +61,7 @@ function Voiture() {
                     },
                 }
             );
-            console.log('Insertion réussie:', response.data);
+            
         fetchVoitures(); 
 
             toast.success('Données bien insérées!', {  
@@ -92,7 +92,7 @@ function Voiture() {
 
     const selectAll_Fonction = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Fonction/selectAll_Fonction',
+            const response = await axios.get(`${apiUrl}/Fonction/selectAll_Fonction`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -107,7 +107,7 @@ function Voiture() {
 
     const selectAll_Transmision = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/transmision/selectAll_Transmision',
+            const response = await axios.get(`${apiUrl}/transmision/selectAll_Transmision`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -122,7 +122,7 @@ function Voiture() {
 
     const selectAll_Carburant = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Energie/selectAll_Energie',
+            const response = await axios.get(`${apiUrl}/Energie/selectAll_Energie`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -137,7 +137,7 @@ function Voiture() {
 
     const selectAll_Service = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Service/selectAll_service',
+            const response = await axios.get(`${apiUrl}/Service/selectAll_service`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -152,7 +152,7 @@ function Voiture() {
 
     const selectAll_Modele = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/model/selectAll_Model',
+            const response = await axios.get(`${apiUrl}/model/selectAll_Model`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -167,7 +167,7 @@ function Voiture() {
 
     const selectAll_TypeVoiture = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Type_voiture/selectAll_Type_voiture',
+            const response = await axios.get(`${apiUrl}/Type_voiture/selectAll_Type_voiture`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -182,7 +182,7 @@ function Voiture() {
 
     const fetchVoitures = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/voiture/selectAll_voiture', // Ajout du token ici
+            const response = await axios.get(`${apiUrl}/voiture/selectAll_voiture`, // Ajout du token ici
                 {
                     headers:{
                         'Authorization': `Bearer ${token}` // ... code modifié ...

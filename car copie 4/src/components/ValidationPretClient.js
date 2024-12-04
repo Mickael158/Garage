@@ -15,7 +15,7 @@ function Pret() {
     const [voitureData, setVoitureData] = useState([]);
     const [personnelData, setPersonnelData] = useState([]);
 
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [remarque, setRemarque] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [showRefusModal, setShowRefusModal] = useState(false);
@@ -31,7 +31,7 @@ function Pret() {
     const [S, setS] = useState('');
     const getService = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/Token/getService', { service: token }, {
+            const response = await axios.post(`${apiUrl}/Token/getService`, { service: token }, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -44,7 +44,7 @@ function Pret() {
     const [F, setF] = useState('');
     const getFonction = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/Token/getFonction', { service: token }, {
+            const response = await axios.post(`${apiUrl}/Token/getFonction`, { service: token }, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -100,7 +100,7 @@ function Pret() {
     const [users, setUsers] = useState('');
     const Utilisateur = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/Token/getUtilisateur', { utilisateur: token }, {
+            const response = await axios.post(`${apiUrl}/Token/getUtilisateur`, { utilisateur: token }, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -113,7 +113,7 @@ function Pret() {
 
     const selectAllPret = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/Demande_pret_voiture/selectEtat_Demande_pret_voiture_by_utilisateur/${users}`,
+            const response = await axios.get(`${apiUrl}/Demande_pret_voiture/selectEtat_Demande_pret_voiture_by_utilisateur/${users}`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -127,12 +127,12 @@ function Pret() {
     };
     const annulerPret = async (idDemandePretVoitureValeur) => {
         try {
-            const response = await axios.get(`http://localhost:8080/Demande_pret_voiture/annulerPret/${idDemandePretVoitureValeur}`, {
+            const response = await axios.get(`${apiUrl}/Demande_pret_voiture/annulerPret/${idDemandePretVoitureValeur}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            console.log('Réponse:', response.data.data);
+            
             selectAllPret();
             toast.success(response.data.data);
         } catch (error) {
@@ -143,7 +143,7 @@ function Pret() {
     
     const selectAll_Voiture = async (f , s , p) => {
         try {
-            const response = await axios.get(`http://localhost:8080/voiture/selecAll_voiture_by_id_fonction_id_service_id_type_voiture/${f}/${s}/${p}`,
+            const response = await axios.get(`${apiUrl}/voiture/selecAll_voiture_by_id_fonction_id_service_id_type_voiture/${f}/${s}/${p}`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -157,7 +157,7 @@ function Pret() {
     };
     const selectAll_Personnel = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/personnel/selectAll_personnel',
+            const response = await axios.get(`${apiUrl}/personnel/selectAll_personnel`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -186,7 +186,7 @@ function Pret() {
     const insertValiderPret = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8080/Validation_pret_voiture/insertion_demande_maintenence_validation', 
+            const response = await axios.post(`${apiUrl}/Validation_pret_voiture/insertion_demande_maintenence_validation`, 
                 {
                     remarque: remarque,
                     id_demande_pret_voiture: idDemande,
@@ -213,7 +213,7 @@ function Pret() {
     const insertRefusPret = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8080/Refus_pret_voiture/insertion_Refus_pret_voiture',
+            const response = await axios.post(`${apiUrl}/Refus_pret_voiture/insertion_Refus_pret_voiture`,
                 {
                     remarque: remarqueRefus,
                     id_demande_pret_voiture: idDemande,

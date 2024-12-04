@@ -11,15 +11,15 @@ function DemandeValide() {
 
     const [actionMaintData, setActionMaintData] = useState([]);
     const [Users, setUsers] = useState('');
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const Utilisateur = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/Token/getUtilisateur', { utilisateur: token }, {
+            const response = await axios.post(`${apiUrl}/Token/getUtilisateur`, { utilisateur: token }, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            console.log(String(response.data.data));
+            
             setUsers(String(response.data.data));
         } catch (error) {
             console.error('Erreur lors de la récupération du rôle', error);
@@ -29,7 +29,7 @@ function DemandeValide() {
     const selectAllActionMaintenanceValid = async () => {
         if (!Users) return; // S'assurer que Users est défini avant de faire l'appel
         try {
-            const response = await axios.get(`http://localhost:8080/demande_maintenence/SelectEtat_Demande_maintenence_Attente_by_utilisateur/${Users}`, {
+            const response = await axios.get(`${apiUrl}/demande_maintenence/SelectEtat_Demande_maintenence_Attente_by_utilisateur/${Users}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 function Maintenance() {
     const token=sessionStorage.getItem("token");
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [data, setData] = useState('');
     const [maintenanceData, setMaintenanceData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -21,7 +21,7 @@ function Maintenance() {
     const ajouterMaintenance = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Maintenance/insertion_Maintenance`, 
+            const response = await axios.post(`${apiUrl}/Maintenance/insertion_Maintenance`, 
                 { nom_maintenanca: data }, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ function Maintenance() {
 
                 },
             });
-            console.log('Insertion réussie:', response.data);
+            
             toast.success('Données bien insérées!', {
                 position: "top-right",
                 autoClose: 3000,
@@ -57,7 +57,7 @@ function Maintenance() {
 
     const selectAllMaintenance = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Maintenance/selectAll_Maintenance',
+            const response = await axios.get(`${apiUrl}/Maintenance/selectAll_Maintenance`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

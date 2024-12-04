@@ -21,6 +21,7 @@ const Dashboard = () => {
     const [id_demamnde_pret, setId_demamnde_pret] = useState('');
     const [data, setData] = useState('');
     const [imageDepart,setImageDepart] = useState('');
+    const apiUrl = process.env.REACT_APP_API_URL;
     const handleShowImportModal = (id) => {
         setShowImportModal(true);
         setId_demamnde_pret(id);
@@ -40,11 +41,11 @@ const Dashboard = () => {
     const selectAllServiceFiltrer = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.get(`http://localhost:8080/Recu/Etat_maintenance_by_service/${data}/${dateDebut}/${dateFin}`, {
+            const response = await axios.get(`${apiUrl}/Recu/Etat_maintenance_by_service/${data}/${dateDebut}/${dateFin}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             setServiceFiltreData(response.data.data || []);
-            console.log(response.data.data);
+            
         } catch (error) {
             console.error('Erreur de récupération des données', error);
         }
@@ -52,7 +53,7 @@ const Dashboard = () => {
 
     const selectAllService = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Service/selectAll_service', {
+            const response = await axios.get(`${apiUrl}/Service/selectAll_service`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             setServiceData(response.data.data || []);
@@ -63,7 +64,7 @@ const Dashboard = () => {
 
     const selectAllVoitureParJourDepart = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Demande_pret_voiture/Select_pret_voiture_depart_jour', {
+            const response = await axios.get(`${apiUrl}/Demande_pret_voiture/Select_pret_voiture_depart_jour`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             setDepartData(response.data.data || []);
@@ -74,7 +75,7 @@ const Dashboard = () => {
 
     const selectAllVoitureParJourArrivee = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Demande_pret_voiture/Select_pret_voiture_arriver_jour', {
+            const response = await axios.get(`${apiUrl}/Demande_pret_voiture/Select_pret_voiture_arriver_jour`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             setArriveeData(response.data.data || []);
@@ -95,10 +96,9 @@ const Dashboard = () => {
             ImagesData.forEach((depart) => {
                 data.append('depart', depart);
               });
-
-              console.log(data.get('credentials'));
+              
             
-            const response = await axios.post(`http://localhost:8080/Controlle_pret/insertion_Depart_Controlle_pret`,data,
+            const response = await axios.post(`${apiUrl}/Controlle_pret/insertion_Depart_Controlle_pret`,data,
                 {
                     headers: { 
                         'Content-Type': 'multipart/form-data',
@@ -147,7 +147,7 @@ const Dashboard = () => {
 
 
             
-            const response = await axios.post(`http://localhost:8080/Controlle_pret/insertion_Arriver_Controlle_pret`,data,
+            const response = await axios.post(`${apiUrl}/Controlle_pret/insertion_Arriver_Controlle_pret`,data,
                 {
                     headers: { 
                         'Content-Type': 'multipart/form-data',
@@ -183,7 +183,7 @@ const Dashboard = () => {
 
     const getImage = async (id) => {
         try {
-            const response = await axios.get(`http://localhost:8080/Controlle_pret/select_Controller_By_id_demande_pret_voiture/${id}`,{
+            const response = await axios.get(`${apiUrl}/Controlle_pret/select_Controller_By_id_demande_pret_voiture/${id}`,{
                 headers:{
                     'Authorization': `Bearer ${token}`
                 }
@@ -433,7 +433,7 @@ const Dashboard = () => {
                     <div className="mb-3">
                         <label className="form-label">Constatation au Depart :</label>
                         {imageDepart !== '' && (
-                            <img src={`http://localhost:8080${imageDepart}`} alt='' className='img-fluid' />
+                            <img src={`${apiUrl}${imageDepart}`} alt='' className='img-fluid' />
                         )}
                     </div>
                     <div className="mb-3">

@@ -14,9 +14,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 function Entretien() {
     const token = sessionStorage.getItem('token');
-    
-
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [data, setData] = useState('');
     const [remarqueData, setRemarqueData] = useState('');
     const [diagnosticData, setDiagnosticData] = useState([]);
@@ -39,7 +37,7 @@ function Entretien() {
     const insert_maintenance = async () => {
         try {
             const response = await axios.post(
-                'http://localhost:8080/demande_maintenence/insertion_demande_maintenence',
+                `${apiUrl}/demande_maintenence/insertion_demande_maintenence`,
                 { 
                     id_voiture: data, 
                     remarque: remarqueData, 
@@ -61,7 +59,7 @@ function Entretien() {
 
     const selectAll_Service = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Service/selectAll_service',
+            const response = await axios.get(`${apiUrl}/Service/selectAll_service`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -76,7 +74,7 @@ function Entretien() {
 
     const selectAll_Diagnostic = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Action/selectAll_Action_byMaintence/1',
+            const response = await axios.get(`${apiUrl}/Action/selectAll_Action_byMaintence/1`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -91,7 +89,7 @@ function Entretien() {
 
     const selectAll_Entretien = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Action/selectAll_Action_byMaintence/2',
+            const response = await axios.get(`${apiUrl}/Action/selectAll_Action_byMaintence/2`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -106,7 +104,7 @@ function Entretien() {
 
     const selectAll_Reparation = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Action/selectAll_Action_byMaintence/3',
+            const response = await axios.get(`${apiUrl}/Action/selectAll_Action_byMaintence/3`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -125,7 +123,7 @@ function Entretien() {
         try {
             
             // Récupérer le token depuis l'API
-            const fonction = await axios.post('http://localhost:8080/Token/getFonction', 
+            const fonction = await axios.post(`${apiUrl}/Token/getFonction`, 
                 { 
                     id_fonction: token
                 },
@@ -136,7 +134,7 @@ function Entretien() {
             });
 
            
-            const service = await axios.post('http://localhost:8080/Token/getService', 
+            const service = await axios.post(`${apiUrl}/Token/getService`, 
                 { 
                     service: token
                 },
@@ -151,7 +149,7 @@ function Entretien() {
 
             
 
-            const response = await axios.get(`http://localhost:8080/voiture/selecAll_voiture_by_id_fonction_id_service/${fonctionToken}/${serviceToken}`,
+            const response = await axios.get(`${apiUrl}/voiture/selecAll_voiture_by_id_fonction_id_service/${fonctionToken}/${serviceToken}`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

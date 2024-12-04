@@ -11,12 +11,12 @@ function DemandeEnCoursClient() {
 
     const [actionMaintData, setActionMaintData] = useState([]);
     const [Users, setUsers] = useState('');
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     // Fonction pour récupérer les demandes en fonction de l'utilisateur
     const selectAllActionMaintenanceValid = async () => {
         if (!Users) return;  // Ne pas faire l'appel si Users est vide
         try {   
-            const response = await axios.get(`http://localhost:8080/demande_maintenence/SelectEtat_Demande_maintenence_Attente_validation_by_utilisateur/${Users}`,
+            const response = await axios.get(`${apiUrl}/demande_maintenence/SelectEtat_Demande_maintenence_Attente_validation_by_utilisateur/${Users}`,
                 {
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -32,7 +32,7 @@ function DemandeEnCoursClient() {
     // Fonction pour récupérer l'identifiant de l'utilisateur
     const Utilisateur = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/Token/getUtilisateur', { utilisateur: token }, {
+            const response = await axios.post(`${apiUrl}/Token/getUtilisateur`, { utilisateur: token }, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

@@ -7,7 +7,7 @@ function Crud() {
     const [activeForm, setActiveForm] = useState(null);
     const [data, setData] = useState('');
     const [fonctionData, setFonctionData] = useState([]);
-
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     const handleFormDisplay = (formName) => {
         setActiveForm(formName);
@@ -18,13 +18,12 @@ function Crud() {
         event.preventDefault();
         try {
             
-          const response = await axios.post(`http://localhost:8080/Fonction/insertion_Fonction`, 
+          const response = await axios.post(`${apiUrl}/Fonction/insertion_Fonction`, 
             { nom_fonction: data }, {
             headers: {
               'content-Type': 'application/json',
             },
           });
-          console.log('ok', response.data);
         } catch (error) {
           console.error('Erreur de Verification', error);
         }
@@ -32,9 +31,8 @@ function Crud() {
 
       const fetchFonctionData = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Fonction/selectAll_Fonction');
+            const response = await axios.get(`${apiUrl}/Fonction/selectAll_Fonction`);
             setFonctionData(response.data);
-            console.log(fonctionData);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
         }

@@ -18,18 +18,18 @@ function Energie() {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = fonctionData.slice(indexOfFirstItem, indexOfLastItem);
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const energie = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Energie/insertion_Energie`, 
+            const response = await axios.post(`${apiUrl}/Energie/insertion_Energie`, 
                 { nom_energie: data }, {
                 headers: {
                     'content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
             });
-            console.log('Insertion réussie:', response.data);
+            
             toast.success('Données bien insérées!', {  // Afficher une notification de succès
                 position: "top-right",
                 autoClose: 3000,
@@ -58,14 +58,14 @@ function Energie() {
 
     const selectAll_Energie = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Energie/selectAll_Energie',
+            const response = await axios.get(`${apiUrl}/Energie/selectAll_Energie`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            console.log('Données récupérées:', response.data);  // Pour vérifier la structure des données
+            
             setFonctionData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -80,7 +80,7 @@ function Energie() {
 
     useEffect(() => {
         selectAll_Energie();
-        console.log("Set ", fonctionData)
+        
     }, []);
 
     return (

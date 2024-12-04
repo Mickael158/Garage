@@ -10,7 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 function Systeme() {
 
     const token=sessionStorage.getItem("token");
-    
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [data, setData] = useState('');
     const [systemeData, setSystemeData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -22,14 +22,14 @@ function Systeme() {
     const ajouterSysteme = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Systeme/insertion_Systeme`, 
+            const response = await axios.post(`${apiUrl}/Systeme/insertion_Systeme`, 
                 { nom_systeme: data }, {
                 headers: {
                     'content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`,
                 },
             });
-            console.log('Insertion réussie:', response.data);
+            
             toast.success('Données bien insérées!', {
                 position: "top-right",
                 autoClose: 3000,
@@ -57,7 +57,7 @@ function Systeme() {
 
     const selectAll_Systeme = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Systeme/selecAll_Systeme',
+            const response = await axios.get(`${apiUrl}/Systeme/selecAll_Systeme`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

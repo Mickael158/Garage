@@ -17,18 +17,17 @@ function Designation() {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = designationData.slice(indexOfFirstItem, indexOfLastItem);
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const ajouterDesignation = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Action/enregistrerDesignation`, 
+            const response = await axios.post(`${apiUrl}/Action/enregistrerDesignation`, 
                 { nom_designation: data }, {
                 headers: {
                     'content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
             });
-            console.log('Insertion réussie:', response.data);
             toast.success('Données bien insérées!', {
                 position: "top-right",
                 autoClose: 3000,
@@ -56,7 +55,7 @@ function Designation() {
 
     const selectAll_Designation = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Action/selectAll_enregistrerDesignation',
+            const response = await axios.get(`${apiUrl}/Action/selectAll_enregistrerDesignation`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

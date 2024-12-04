@@ -15,17 +15,17 @@ function VoirPlus() {
     const [tab_recuData, setTabRecuData] = useState([]);
     const location = useLocation();
     const { data } = location.state; // Récupérer les données de l'état
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const selectAll_Tab_PV = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/TableauPv/find_TableauPvBy_id_demande_maintenence_valider/${data.demande_maintenence_valider.id_demande_maintenence_valider}`,
+            const response = await axios.get(`${apiUrl}/TableauPv/find_TableauPvBy_id_demande_maintenence_valider/${data.demande_maintenence_valider.id_demande_maintenence_valider}`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            console.log('Données PV récupérées:', response.data); // Pour vérifier la structure des données
+            
             settabpvData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données PV', error);
@@ -34,14 +34,14 @@ function VoirPlus() {
 
     const selectAll_Tab_Estimation = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/Tabeau_Estimation/find_Tableau_EstimationBy_id_demande_maintenence_valider/${data.demande_maintenence_valider.id_demande_maintenence_valider}`,
+            const response = await axios.get(`${apiUrl}/Tabeau_Estimation/find_Tableau_EstimationBy_id_demande_maintenence_valider/${data.demande_maintenence_valider.id_demande_maintenence_valider}`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            console.log('Données Estimation récupérées:', response.data); // Pour vérifier la structure des données
+            
             setTabEstimationData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données Estimation', error);
@@ -50,14 +50,14 @@ function VoirPlus() {
 
     const selectAll_Tab_Recu = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/Tabeau_Recu/find_Tableau_RecuBy_id_demande_maintenence_valider/${data.demande_maintenence_valider.id_demande_maintenence_valider}`,
+            const response = await axios.get(`${apiUrl}/Tabeau_Recu/find_Tableau_RecuBy_id_demande_maintenence_valider/${data.demande_maintenence_valider.id_demande_maintenence_valider}`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            console.log('Données Recu récupérées:', response.data); // Pour vérifier la structure des données
+            
             setTabRecuData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données Recu', error);

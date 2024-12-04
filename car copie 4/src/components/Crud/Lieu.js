@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';  // Import des styles Toastify
 function Lieu() {
     
     const token=sessionStorage.getItem("token");
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [data, setData] = useState('');
     const [typeLieuData, setTypeLieuData] = useState([]);  // État pour les types de lieu
     const [idTypeLieu, setIdTypeLieu] = useState('');  // État pour l'ID du type de lieu
@@ -22,14 +22,14 @@ function Lieu() {
     const insererLieu = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Lieu/insertion_Lieu`, 
+            const response = await axios.post(`${apiUrl}/Lieu/insertion_Lieu`, 
                 { nom_lieu: data, id_type_lieu: idTypeLieu, km: kilometrage }, {
                     headers: {
                         'content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
                 });
-            console.log('Insertion réussie:', response.data);
+                
             toast.success('Lieu bien inséré!', {  // Notification de succès
                 position: "top-right",
                 autoClose: 3000,
@@ -60,14 +60,14 @@ function Lieu() {
     // Fonction pour récupérer tous les lieux
     const selectAllLieu = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Lieu/selectAll_lieu',
+            const response = await axios.get(`${apiUrl}/Lieu/selectAll_lieu`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            console.log('Données récupérées:', response.data);  // Pour vérifier la structure des données
+            // Pour vérifier la structure des données
             setLieuData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -77,14 +77,14 @@ function Lieu() {
     // Fonction pour récupérer tous les types de lieu
     const selectAllTypeLieu = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/type_lieu/selectAll_type_lieu',
+            const response = await axios.get(`${apiUrl}/type_lieu/selectAll_type_lieu`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             ); 
-            console.log('Types de lieu récupérés:', response.data);
+            
             setTypeLieuData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des types de lieu', error);

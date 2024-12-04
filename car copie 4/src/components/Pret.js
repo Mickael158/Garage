@@ -26,7 +26,7 @@ function Pret() {
     const [lieuArrivee, setLieuArrivee] = useState('');
     const [destinationPretData, setDestinationPretData] = useState([]);
     const [destinations, setDestinations] = useState([{ depart: '', arriver: '' }]);
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     // Ajoutez ces nouvelles constantes pour les options de lieu
     const lieuOptions = lieuData.map(lieu => ({
         value: lieu.id_lieu,
@@ -42,9 +42,9 @@ function Pret() {
             nbr_pers: nbrPers,
             id_lieu: lieuDepart
         };
-        console.log("Données de demande de prêt:", data);
+        
         try {
-            const response = await axios.post(`http://localhost:8080/Demande_pret_voiture/insertion_demande_maintenence`, data, {
+            const response = await axios.post(`${apiUrl}/Demande_pret_voiture/insertion_demande_maintenence`, data, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
@@ -91,8 +91,8 @@ function Pret() {
             depart: dest.depart,
             arriver: dest.arriver
         }));
-        console.log("Données de destination de prêt:", data);
-        const response = await axios.post(`http://localhost:8080/Destination_pret_voiture/enregistrerDestination_pret_voiture`, data, {
+        
+        const response = await axios.post(`${apiUrl}/Destination_pret_voiture/enregistrerDestination_pret_voiture`, data, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
@@ -107,7 +107,7 @@ function Pret() {
         try {
             // Insérer d'abord la demande de prêt
             const responsePret = await insertDemandePret();
-            console.log("Réponse de demande de prêt:", responsePret);
+            
 
             // Vérifier si l'insertion de la demande a réussi
             if (responsePret.data && responsePret.data.data) {
@@ -116,7 +116,7 @@ function Pret() {
 
                 // Insérer ensuite la destination du prêt
                 const responseDestination = await insertDestinationPret(idDemandePret);
-                console.log("Réponse de destination de prêt:", responseDestination);
+                
 
                 toast.success('Demande de prêt et destination enregistrées avec succès!', { position: "top-right", autoClose: 3000 });
             } else {
@@ -133,7 +133,7 @@ function Pret() {
 
     const selectAllPret = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Demande_pret_voiture/selectAll_demande_pret_voiture',
+            const response = await axios.get(`${apiUrl}/Demande_pret_voiture/selectAll_demande_pret_voiture`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -148,7 +148,7 @@ function Pret() {
 
     const selectAllModifPret = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Motif_pret_voiture/selectAll_Motif_pret_voiture',
+            const response = await axios.get(`${apiUrl}/Motif_pret_voiture/selectAll_Motif_pret_voiture`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -163,7 +163,7 @@ function Pret() {
 
     const selectAll_Voiture = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/voiture/selectAll_voiture',
+            const response = await axios.get(`${apiUrl}/voiture/selectAll_voiture`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -178,7 +178,7 @@ function Pret() {
 
     const selectAllLieu = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Lieu/selectAll_lieu',
+            const response = await axios.get(`${apiUrl}/Lieu/selectAll_lieu`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

@@ -15,7 +15,7 @@ function Nav() {
     const [countDemandeValide, setCountDemandeValide] = useState(0);
     const [countDemandePretNonValide, setCountDemandePretNonValide] = useState(0);
     const [Role, setRole] = useState('');
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const handleLinkClick = (path) => {
         setActiveLink(path);
     };
@@ -26,7 +26,7 @@ function Nav() {
 
     const fetchCountDemandeAttente = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/demande_maintenence/SelectCount_Demande_maintenence_Attente', {
+            const response = await axios.get(`${apiUrl}/demande_maintenence/SelectCount_Demande_maintenence_Attente`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -39,7 +39,7 @@ function Nav() {
 
     const role = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/Token/getRole', { utilisateur: token }, {
+            const response = await axios.post(`${apiUrl}/Token/getRole`, { utilisateur: token }, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -52,7 +52,7 @@ function Nav() {
 
     const fetchCountDemandeValide = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/demande_maintenence_valider/selectCount_demande_maintenence_validation', {
+            const response = await axios.get(`${apiUrl}/demande_maintenence_valider/selectCount_demande_maintenence_validation`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -65,7 +65,7 @@ function Nav() {
 
     const fetchCountDemandePretNonValide = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Demande_pret_voiture/SelectCountl_demande_pret_not_valider_refuser', {
+            const response = await axios.get(`${apiUrl}/Demande_pret_voiture/SelectCountl_demande_pret_not_valider_refuser`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -186,14 +186,12 @@ function Nav() {
                             </Link>
                         </li>
                         <li>
-                            <a 
-                                href="/utilisateur" 
-                                className={`rendezvous-hover ${activeLink === '/utilisateur' ? 'active-link' : ''}`} 
-                                onClick={() => handleLinkClick('/utilisateur')}
+                            <Link 
+                                to="/utilisateur" className={`rendezvous-hover ${activeLink === '/utilisateur' ? 'active-link' : ''}`} onClick={() => handleLinkClick('/utilisateur')}
                             >
                                 <FaUser className="icon" /> 
                                 Utilisateur
-                            </a>
+                            </Link>
                         </li>
                     </>
                 )}

@@ -9,7 +9,7 @@ function Top() {
 
     const token = sessionStorage.getItem('token');
     const [Role, setRole] = useState('');
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [countDemandeAttente, setCountDemandeAttente] = useState(0); // État pour le compteur
     const [countDemandeValide, setCountDemandeValide] = useState(0); // État pour le compteur des demandes validées
     const [countDemandePretNonValide, setCountDemandePretNonValide] = useState(0); 
@@ -22,7 +22,7 @@ function Top() {
     };
     const role = async () => {
         try {
-            const response = await axios.post('http://localhost:8080/Token/getRole', { utilisateur: token }, {
+            const response = await axios.post(`${apiUrl}/Token/getRole`, { utilisateur: token }, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -35,7 +35,7 @@ function Top() {
 
     const fetchCountDemandeAttente = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/demande_maintenence/SelectCount_Demande_maintenence_Attente',
+            const response = await axios.get(`${apiUrl}/demande_maintenence/SelectCount_Demande_maintenence_Attente`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -43,7 +43,6 @@ function Top() {
                 }
             );
             setCountDemandeAttente(response.data.data); // Accéder à la valeur de data
-            console.log(response.data.data); // Affiche la réponse
         } catch (error) {
             console.error('Erreur lors de la récupération du nombre de demandes en attente', error);
         }
@@ -52,7 +51,7 @@ function Top() {
     // Fonction pour récupérer le nombre de demandes validées
     const fetchCountDemandeValide = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/demande_maintenence_valider/selectCount_demande_maintenence_validation',
+            const response = await axios.get(`${apiUrl}/demande_maintenence_valider/selectCount_demande_maintenence_validation`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -60,7 +59,7 @@ function Top() {
                 }
             );
             setCountDemandeValide(response.data.data); // Accéder à la valeur de data
-            console.log(response.data.data); // Affiche la réponse
+            
         } catch (error) {
             console.error('Erreur lors de la récupération du nombre de demandes validées', error);
         }
@@ -69,15 +68,15 @@ function Top() {
     // Fonction pour récupérer le nombre de demandes de prêt non validées
     const fetchCountDemandePretNonValide = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Demande_pret_voiture/SelectCountl_demande_pret_not_valider_refuser',
+            const response = await axios.get(`${apiUrl}/Demande_pret_voiture/SelectCountl_demande_pret_not_valider_refuser`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            setCountDemandePretNonValide(response.data.data); // Accéder à la valeur de data
-            console.log(response.data.data); // Affiche la réponse
+            setCountDemandePretNonValide(response.data.data); 
+            
         } catch (error) {
             console.error('Erreur lors de la récupération du nombre de demandes de prêt non validées', error);
         }

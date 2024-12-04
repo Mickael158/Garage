@@ -12,7 +12,7 @@ import Select from 'react-select'; // Ajoutez cette importation en haut du fichi
 function VoiturePanne() {
 
     const token = sessionStorage.getItem('token');
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [dates, setDates] = useState('');
     const [matricule, setMatricule] = useState('');
     const [datesdispo, setDatesDispo] = useState('');
@@ -45,7 +45,7 @@ function VoiturePanne() {
     const insererVoiturePanne = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Voiture_panne/insertion_Voiture_panne`, 
+            const response = await axios.post(`${apiUrl}/Voiture_panne/insertion_Voiture_panne`, 
                 { 
                     dates: dates,
                     id_lieu: idLieu,
@@ -59,7 +59,7 @@ function VoiturePanne() {
 
                 },
             });
-            console.log('Insertion réussie:', response.data.data);
+            
             toast.success('Données bien insérées!', {
                 position: "top-right",
                 autoClose: 3000,
@@ -87,7 +87,7 @@ function VoiturePanne() {
     const insererVoitureRedisponible = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Voiture_redisponible/insertion_Voiture_panne`, 
+            const response = await axios.post(`${apiUrl}/Voiture_redisponible/insertion_Voiture_panne`, 
                 { 
                     dates: datesdispo,
                     id_voiture_panne: idpanne,
@@ -99,7 +99,7 @@ function VoiturePanne() {
 
                 },
             });
-            console.log('Insertion réussie:', response.data);
+            
             toast.success('Données bien insérées!', {
                 position: "top-right",
                 autoClose: 3000,
@@ -128,14 +128,14 @@ function VoiturePanne() {
 
     const recupererVoiturePanne = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Voiture_panne/SelectAll_voiture_again_panne',
+            const response = await axios.get(`${apiUrl}/Voiture_panne/SelectAll_voiture_again_panne`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            console.log('Données récupérées:', response.data.data);  // Pour vérifier la structure des données
+            // Pour vérifier la structure des données
             setVoiturePanneData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -144,14 +144,14 @@ function VoiturePanne() {
 
     const recupererLieux = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Lieu/selectAll_lieu',
+            const response = await axios.get(`${apiUrl}/Lieu/selectAll_lieu`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            console.log('Données récupérées:', response.data.data);  // Pour vérifier la structure des données
+              // Pour vérifier la structure des données
             setLieux(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -160,14 +160,14 @@ function VoiturePanne() {
 
     const recupererIndisponibilites = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Indisponibilite/selectAll_Indisponibilite',
+            const response = await axios.get(`${apiUrl}/Indisponibilite/selectAll_Indisponibilite`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            console.log('Données récupérées:', response.data);  // Pour vérifier la structure des données
+              // Pour vérifier la structure des données
             setIndisponibilites(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -176,7 +176,7 @@ function VoiturePanne() {
 
     const recupererVoitures = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/voiture/selectAll_voiture',
+            const response = await axios.get(`${apiUrl}/voiture/selectAll_voiture`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -206,7 +206,7 @@ function VoiturePanne() {
         recupererLieux();
         recupererIndisponibilites();
         recupererVoitures();
-        console.log("Données des pannes de voiture mises à jour", voiturePanneData);
+        
     }, []);
 
     return (

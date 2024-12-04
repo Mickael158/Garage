@@ -20,19 +20,18 @@ function Action() {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = actionData.slice(indexOfFirstItem, indexOfLastItem);
     const [idMaintenance, setIdMaintenance] = useState(''); 
-
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     const ajouterAction = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Action/insertion_Action`, 
+            const response = await axios.post(`${apiUrl}/Action/insertion_Action`, 
                 { nom_action: data , id_maintenance: idMaintenance }, {
                 headers: {
                     'content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
             });
-            console.log('Insertion réussie:', response.data);
             toast.success('Données bien insérées!', {
                 position: "top-right",
                 autoClose: 3000,
@@ -60,7 +59,7 @@ function Action() {
 
     const selectAllMaintenance = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Maintenance/selectAll_Maintenance',
+            const response = await axios.get(`${apiUrl}/Maintenance/selectAll_Maintenance`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -68,7 +67,6 @@ function Action() {
                 }
             );
             setMaintenanceData(response.data.data); 
-            console.log(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
         }
@@ -76,7 +74,7 @@ function Action() {
 
     const selectAll_Action = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Action/selectAll_Action',
+            const response = await axios.get(`${apiUrl}/Action/selectAll_Action`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

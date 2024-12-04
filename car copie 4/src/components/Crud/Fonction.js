@@ -10,7 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 function Fonction() {
 
     const token=sessionStorage.getItem("token");
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [data, setData] = useState('');
     const [fonctionData, setFonctionData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -21,14 +21,14 @@ function Fonction() {
     const fonction = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Fonction/insertion_Fonction`, 
+            const response = await axios.post(`${apiUrl}/Fonction/insertion_Fonction`, 
                 { nom_fonction: data }, {
                 headers: {
                     'content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
             });
-            console.log('Insertion réussie:', response.data);
+            
             toast.success('Données bien insérées!', {  // Afficher une notification de succès
                 position: "top-right",
                 autoClose: 3000,
@@ -56,7 +56,7 @@ function Fonction() {
 
     const selectAll_Fonction = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Fonction/selectAll_Fonction',
+            const response = await axios.get(`${apiUrl}/Fonction/selectAll_Fonction`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

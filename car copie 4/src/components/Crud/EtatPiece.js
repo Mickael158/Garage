@@ -12,21 +12,21 @@ function EtatPiece() {
 
     const token=sessionStorage.getItem("token");
 
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [data, setData] = useState('');
     const [etatPieceData, setEtatPieceData] = useState([]);
 
     const insertionEtatPiece = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Etat_piece/insertion_Etat_piece`, 
+            const response = await axios.post(`${apiUrl}/Etat_piece/insertion_Etat_piece`, 
                 { nom: data }, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
             });
-            console.log('Insertion réussie:', response.data);
+            
             toast.success('Données bien insérées!', {  // Afficher une notification de succès
                 position: "top-right",
                 autoClose: 3000,
@@ -54,14 +54,14 @@ function EtatPiece() {
 
     const selectAllEtatPiece = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Etat_piece/selectAll_Etat_piece',
+            const response = await axios.get(`${apiUrl}/Etat_piece/selectAll_Etat_piece`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            console.log('Données récupérées:', response.data);  // Pour vérifier la structure des données
+            // Pour vérifier la structure des données
             setEtatPieceData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -70,7 +70,7 @@ function EtatPiece() {
 
     useEffect(() => {
         selectAllEtatPiece();
-        console.log("Set ", etatPieceData);
+        
     }, []);
 
     return (

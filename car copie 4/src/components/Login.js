@@ -14,7 +14,7 @@ function Login() {
     const [isPasswordReset, setIsPasswordReset] = useState(false);
     const [showResetRequest, setShowResetRequest] = useState(false);
     const [showNewPasswordForm, setShowNewPasswordForm] = useState(false);
-    const [resetMessage, setResetMessage] = useState('');
+    const [ setResetMessage] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [verificationCode, setVerificationCode] = useState('');
@@ -25,11 +25,11 @@ function Login() {
     const [idPoste, setIdPoste] = useState('');
     const navigate = useNavigate();
 
+    const apiUrl = process.env.REACT_APP_API_URL;
     const Authentification = async (event) => {
         event.preventDefault();
         try {
-            
-            const response = await axios.post(`http://localhost:8080/Login/checking`, 
+            const response = await axios.post(`${apiUrl}/Login/checking`, 
                 { matricule: email, pswd: password }, {
                     headers: {
                         'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ function Login() {
     };
     const selectAll_Fonction = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Fonction/selectAll_Fonction',
+            const response = await axios.get(`${apiUrl}/Fonction/selectAll_Fonction`,
                 {}
             );
             setFonctionData(response.data.data);
@@ -78,7 +78,7 @@ function Login() {
     };
     const selectAll_Service = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Service/selectAll_service',
+            const response = await axios.get(`${apiUrl}/Service/selectAll_service`,
                 {}
             );
             // Pour vérifier la structure des données
@@ -89,7 +89,7 @@ function Login() {
     };
     const selectAllPoste = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Poste/selectAll_Poste',
+            const response = await axios.get(`${apiUrl}/Poste/selectAll_Poste`,
                 {}
             );
             setPosteData(response.data.data);
@@ -120,7 +120,7 @@ function Login() {
     const handlePasswordReset = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8080/Demande_validation/InsertionDemande_validation', 
+            const response = await axios.post(`${apiUrl}/Demande_validation/InsertionDemande_validation`, 
                 { matricule: email },
                 {
                     headers: {
@@ -147,7 +147,7 @@ function Login() {
         event.preventDefault();
         try {
             
-            const response = await axios.post('http://localhost:8080/utilisateur/mdp_oublier', 
+            const response = await axios.post(`${apiUrl}/utilisateur/mdp_oublier`, 
                 { matricule: email,
                     pswd: newPassword,
                     verifier: verificationCode
@@ -193,7 +193,7 @@ function Login() {
     const handleSignup = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8080/Inscription/insertion_Inscription', 
+            const response = await axios.post(`${apiUrl}/Inscription/insertion_Inscription`, 
                 { 
                     nom: nom,
                     matricule: email,
@@ -443,7 +443,14 @@ function Login() {
                     <span> Email : safdlog@gmail.com</span>
                 </div>
             </div>
+            <footer class="footer py-5">
+                <h1 className="small mb-0 text-light">
+                    &copy; <script>document.write(new Date().getFullYear())</script> Created With <i class="ti-heart text-light"></i> By <a href="https://www.linkedin.com/in/mickael-razafindrakoto-955873302/" target="_blank"><span class="text-danger" title="Bootstrap 4 Themes and Dashboards">RAZAFINDRAKOTO Georges Aimé Mickaël</span></a> 
+                </h1>
+            </footer>
+            
         </div>
+        
     );
 }
 

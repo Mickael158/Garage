@@ -8,12 +8,11 @@ import '../styles/Menu.css';
 function DemandeValide() {
 
     const user = sessionStorage.getItem('token');
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [remarqueData, setRemarqueData] = useState('');
     const [dates_pvData, setDatePvData] = useState('');
     const [numeroData, setNumeroData] = useState('');
     const [ImagesData, setImagesData] = useState('');
-    const [maintenanceData, setmaintenanceData] = useState('');
 
     const [actionMaintData, setActionMaintData] = useState([]);
     const [showModal, setShowModal] = useState(false);
@@ -32,7 +31,7 @@ function DemandeValide() {
 
     const selectAllActionMaintenanceValid = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/demande_maintenence_valider/selecAll_demande_maintenence_validation');
+            const response = await axios.get(`${apiUrl}/demande_maintenence_valider/selecAll_demande_maintenence_validation`);
             setActionMaintData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -41,8 +40,8 @@ function DemandeValide() {
 
     const selectAll_Systeme = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Systeme/selecAll_Systeme');
-            // console.log('Données récupérées:', response.data);  // Pour vérifier la structure des données
+            const response = await axios.get(`${apiUrl}/Systeme/selecAll_Systeme`);
+            
             setSystemeData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -51,8 +50,8 @@ function DemandeValide() {
 
     const selectAll_Defaillance = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Defaillance/selectAll_Defaillance');
-            // console.log('Données récupérées:', response.data);  // Pour vérifier la structure des données
+            const response = await axios.get(`${apiUrl}/Defaillance/selectAll_Defaillance`);
+            
             setDefaillanceData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -61,8 +60,8 @@ function DemandeValide() {
 
     const selectAll_Action = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Action/selectAll_Action');
-            // console.log('Données récupérées:', response.data);  // Log to check data structure
+            const response = await axios.get(`${apiUrl}/Action/selectAll_Action`);
+            
             setActionData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -88,7 +87,7 @@ function DemandeValide() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            await axios.post('http://localhost:8080/submit_pv', {
+            await axios.post(`${apiUrl}/submit_pv`, {
                 ...pvData,
                 id_demande: selectedRequest.id_demande_maintenence_valider
             });
@@ -103,8 +102,7 @@ function DemandeValide() {
         event.preventDefault();
         try {
 
-            // console.log("Donnees: " , remarqueData,dates_pvData,numeroData,ImagesData,user,selectedRequest.id_demande_maintenence_valider);
-            const response = await axios.post(`http://localhost:8080/Pv/insertion_Pv`, 
+            const response = await axios.post(`${apiUrl}/Pv/insertion_Pv`, 
                 { 
                     remarque: remarqueData, 
                     dates_pv: dates_pvData, 
@@ -118,7 +116,7 @@ function DemandeValide() {
                     headers: { 'content-Type': 'application/json' },
                 }
             );
-            console.log('Insertion réussie:', response.data);
+            
             selectAll_Action();  // Reload data after insertion
             handleCloseModal();
         } catch (error) {
@@ -136,19 +134,18 @@ function DemandeValide() {
                 ordre_de_priorite: row.input2
             }));
     
-            // Affiche les données envoyées pour vérification
-            console.log('Payload:', payload);
-    
+            
+            
             // Envoie des données sous forme d'un tableau
             const response = await axios.post(
-                'http://localhost:8080/TableauPv/enregistrerTableausPvs', 
+                `${apiUrl}/TableauPv/enregistrerTableausPvs`, 
                 payload, 
                 {
                     headers: { 'Content-Type': 'application/json' },
                 }
             );
     
-            console.log('Insertion du tableau réussie:', response.data);
+            
         } catch (error) {
             console.error('Erreur lors de l\'insertion du tableau', error);
         }

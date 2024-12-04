@@ -14,7 +14,7 @@ import "jspdf-autotable";
 
 function EntreePiece() {
     const token = sessionStorage.getItem('token');
-
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     
 
@@ -110,7 +110,7 @@ const generatePDF = (data) => {
 
     const selectAllSortiePiece = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Entre_piece/selectStock_piece1',
+            const response = await axios.get(`${apiUrl}/Entre_piece/selectStock_piece1`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -125,7 +125,7 @@ const generatePDF = (data) => {
 
     const selectAllEtatPiece = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Etat_piece/selectAll_Etat_piece',
+            const response = await axios.get(`${apiUrl}/Etat_piece/selectAll_Etat_piece`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -140,7 +140,7 @@ const generatePDF = (data) => {
 
     const selectAll_Designation = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Action/selectAll_enregistrerDesignation',
+            const response = await axios.get(`${apiUrl}/Action/selectAll_enregistrerDesignation`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -155,7 +155,7 @@ const generatePDF = (data) => {
 
     const selectAll_ModelVoiture = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/model/selectAll_Model',
+            const response = await axios.get(`${apiUrl}/model/selectAll_Model`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -170,7 +170,7 @@ const generatePDF = (data) => {
 
     const selectAllEntreePiece = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Entre_piece/selectAll_Entre_piece',
+            const response = await axios.get(`${apiUrl}/Entre_piece/selectAll_Entre_piece`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -199,7 +199,7 @@ const generatePDF = (data) => {
         }
 
         try {
-            const response = await axios.post('http://localhost:8080/Sortie_piece/insertion_Entre_piece', {
+            const response = await axios.post(`${apiUrl}/Sortie_piece/insertion_Entre_piece`, {
                 id_utilisateur: token,
                 id_designation: selectedSortie.designation.id_designation,
                 id_model: selectedSortie.model.id_model,
@@ -244,7 +244,7 @@ const generatePDF = (data) => {
 
     const selectAllLieu = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Lieu/selectAll_lieu',
+            const response = await axios.get(`${apiUrl}/Lieu/selectAll_lieu`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

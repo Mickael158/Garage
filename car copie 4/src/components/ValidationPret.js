@@ -36,7 +36,7 @@ function Pret() {
     const [showTrajetModal, setShowTrajetModal] = useState(false);
     const [trajets, setTrajets] = useState([]);
     const [selectedDemande, setSelectedDemande] = useState(null);
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const handleShowModal = (pret) => {
         // Vérifier si pret.id_voiture et pret.id_voiture.matricule existent avant d'y accéder
         // if (pret.id_voiture && pret.id_voiture.matricule) {
@@ -96,7 +96,7 @@ function Pret() {
 
     const selectAllPret = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/Demande_pret_voiture/SelectAll_demande_pret_not_valider_refuser`,
+            const response = await axios.get(`${apiUrl}/Demande_pret_voiture/SelectAll_demande_pret_not_valider_refuser`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -112,9 +112,8 @@ function Pret() {
     };
     const selectAll_Voiture = async (f, s, p, debut, fin) => {
         if (f && s && p && debut && fin) { 
-            console.log(`http://localhost:8080/voiture/SelectAll_voiture_by_id_fonction_id_service_place_dispo/${f}/${s}/${p}/${debut}/${fin}`);
             try {
-                const response = await axios.get(`http://localhost:8080/voiture/SelectAll_voiture_by_id_fonction_id_service_place_dispo/${f}/${s}/${p}/${debut}/${fin}`,
+                const response = await axios.get(`${apiUrl}/voiture/SelectAll_voiture_by_id_fonction_id_service_place_dispo/${f}/${s}/${p}/${debut}/${fin}`,
                     {
                         headers:{
                             'Authorization': `Bearer ${token}`
@@ -131,7 +130,7 @@ function Pret() {
     };
     const selectAll_Personnel = async (debut, fin) => {
         try {
-            const response = await axios.post('http://localhost:8080/Chauffeur/chauffeur_dispo',
+            const response = await axios.post(`${apiUrl}/Chauffeur/chauffeur_dispo`,
                 {
                     debut: debut,
                     fin: fin
@@ -156,9 +155,9 @@ function Pret() {
     // Fonction pour insérer une validation
     const insertValiderPret = async (event) => {
         event.preventDefault();
-        console.log(remarque, idDemande, token, idVoiture, idPersonnel);
+        
         try {
-            const response = await axios.post('http://localhost:8080/Validation_pret_voiture/insertion_demande_maintenence_validation', 
+            const response = await axios.post(`${apiUrl}/Validation_pret_voiture/insertion_demande_maintenence_validation`, 
                 {
                     remarque: remarque,
                     id_demande_pret_voiture: idDemande,
@@ -186,7 +185,7 @@ function Pret() {
     const insertRefusPret = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8080/Refus_pret_voiture/insertion_Refus_pret_voiture',
+            const response = await axios.post(`${apiUrl}/Refus_pret_voiture/insertion_Refus_pret_voiture`,
                 {
                     remarque: remarqueRefus,
                     id_demande_pret_voiture: idDemande,
@@ -280,7 +279,7 @@ function Pret() {
     const handleShowTrajetModal = async (pret) => {
         setSelectedDemande(pret);
         try {
-            const response = await axios.get(`http://localhost:8080/Destination_pret_voiture/find_Destination_pret_voitureBy_id_id_demande_maintenence_valider/${pret.demande_maintenence_valider.id_demande_pret_voiture}`,
+            const response = await axios.get(`${apiUrl}/Destination_pret_voiture/find_Destination_pret_voitureBy_id_id_demande_maintenence_valider/${pret.demande_maintenence_valider.id_demande_pret_voiture}`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

@@ -24,6 +24,7 @@ function Chauffeur() {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentChauffeurs = chauffeurData.slice(indexOfFirstItem, indexOfLastItem);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -62,16 +63,14 @@ function Chauffeur() {
             });
             return;
         }
-        console.log(idPersonne,idPermis);
         try {
-            const response = await axios.post(`http://localhost:8080/Chauffeur/insertion_Chauffeur`, 
+            const response = await axios.post(`${apiUrl}/Chauffeur/insertion_Chauffeur`, 
                 { id_personne: idPersonne, id_permis: idPermis }, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
             });
-            console.log('Insertion réussie:', response.data);
             toast.success('Chauffeur bien inséré!', {  // Afficher une notification de succès
                 position: "top-right",
                 autoClose: 3000,
@@ -98,14 +97,13 @@ function Chauffeur() {
 
     const fetchAllChauffeurs = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Chauffeur/selectAll_Chauffeur',
+            const response = await axios.get(`${apiUrl}/Chauffeur/selectAll_Chauffeur`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
-            );
-            console.log('Données récupérées:', response.data);  // Pour vérifier la structure des données
+            ); // Pour vérifier la structure des données
             setChauffeurData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des données', error);
@@ -114,7 +112,7 @@ function Chauffeur() {
 
     const fetchAllPersonnel = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/personnel/selectAll_personnel',
+            const response = await axios.get(`${apiUrl}/personnel/selectAll_personnel`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -129,7 +127,7 @@ function Chauffeur() {
 
     const fetchAllPermis = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Permis/selectAll_Permis',
+            const response = await axios.get(`${apiUrl}/Permis/selectAll_Permis`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

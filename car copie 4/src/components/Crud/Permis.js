@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';  // Import des styles Toastify
 
 function Permis() {
     const token=sessionStorage.getItem("token");
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [data, setData] = useState('');
     const [permisData, setPermisData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -22,7 +22,7 @@ function Permis() {
     const ajouterPermis = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Permis/insertion_Permis`, 
+            const response = await axios.post(`${apiUrl}/Permis/insertion_Permis`, 
                 { nom: data }, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ function Permis() {
 
                 },
             });
-            console.log('Insertion réussie:', response.data);
+            
             toast.success('Données bien insérées!', {
                 position: "top-right",
                 autoClose: 3000,
@@ -58,7 +58,7 @@ function Permis() {
 
     const selectAllPermis = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Permis/selectAll_Permis',
+            const response = await axios.get(`${apiUrl}/Permis/selectAll_Permis`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

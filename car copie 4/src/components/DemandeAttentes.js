@@ -30,6 +30,7 @@ function DemandeAttente() {
     const [searchTermService, setSearchTermService] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);
+    const apiUrl = process.env.REACT_APP_API_URL;
 
     const handleShowModalVoiture = (matricule) => {
         Rapide(matricule);
@@ -41,7 +42,7 @@ function DemandeAttente() {
     };
     const Rapide = async (matricule) => {
         try {
-            const response = await axios.get(`http://localhost:8080/Reparation_rapide_voiture/reparation_rapide_fait_by_matricule/${matricule}`,
+            const response = await axios.get(`${apiUrl}/Reparation_rapide_voiture/reparation_rapide_fait_by_matricule/${matricule}`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -55,7 +56,7 @@ function DemandeAttente() {
     };
     const Recu = async (matricule) => {
         try {
-            const response = await axios.get(`http://localhost:8080/Tabeau_Recu/reparation_fait_by_matricule/${matricule}`,
+            const response = await axios.get(`${apiUrl}/Tabeau_Recu/reparation_fait_by_matricule/${matricule}`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -90,7 +91,7 @@ function DemandeAttente() {
 
     const selectAllLieu = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Lieu/selectAll_lieu',
+            const response = await axios.get(`${apiUrl}/Lieu/selectAll_lieu`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
@@ -110,7 +111,7 @@ function DemandeAttente() {
     const insertValider = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8080/demande_maintenence_valider/insertion_demande_maintenence_validation', 
+            const response = await axios.post(`${apiUrl}/demande_maintenence_valider/insertion_demande_maintenence_validation`, 
                 {
                     remarque: remarque,
                     date_rdv: dateRdv,
@@ -125,7 +126,7 @@ function DemandeAttente() {
                     },
                 }
             );
-            console.log('Insertion réussie:', response.data);
+            
             toast.success('Données bien insérées!', {  
                 position: "top-right",
                 autoClose: 3000,
@@ -154,7 +155,7 @@ function DemandeAttente() {
     const insertRefus = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8080/demande_maintenence_refuser/insertion_demande_maintenence_refuser', 
+            const response = await axios.post(`${apiUrl}/demande_maintenence_refuser/insertion_demande_maintenence_refuser`, 
                 {
                     remarque: remarqueRefus, // Remarque pour le refus
                     id_utilisateur: token,
@@ -168,7 +169,7 @@ function DemandeAttente() {
                     },
                 }
             );
-            console.log('Refus réussi:', response.data);
+            
             toast.success('Demande refusée avec succès!', {  
                 position: "top-right",
                 autoClose: 3000,
@@ -195,7 +196,7 @@ function DemandeAttente() {
 
     const selectAllActionMaintenance = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/demande_maintenence/Select_Demande_maintenence_Attente',
+            const response = await axios.get(`${apiUrl}/demande_maintenence/Select_Demande_maintenence_Attente`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

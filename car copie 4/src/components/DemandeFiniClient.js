@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 function DemandeFini() {
 
     const token = sessionStorage.getItem('token');
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const navigate = useNavigate();
 
 
@@ -17,7 +17,7 @@ function DemandeFini() {
     const selectAllActionMaintenanceValid = async () => {
         try {
             
-            const response = await axios.get(`http://localhost:8080/demande_maintenence/SelectEtat_Demande_maintenence_Attente_by_utilisateur/${token}`,
+            const response = await axios.get(`${apiUrl}/demande_maintenence/SelectEtat_Demande_maintenence_Attente_by_utilisateur/${token}`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

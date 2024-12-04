@@ -10,7 +10,7 @@ import { Pagination } from 'react-bootstrap'; // Assurez-vous que react-bootstra
 
 function MarqueVoiture() {
     const token=sessionStorage.getItem("token");
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [data, setData] = useState('');
     const [marqueData, setMarqueData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -22,7 +22,7 @@ function MarqueVoiture() {
     const ajouterMarque = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Marque/insertion_Marque`, 
+            const response = await axios.post(`${apiUrl}/Marque/insertion_Marque`, 
                 { nom_marque: data }, {
                 headers: {
                     'content-Type': 'application/json',
@@ -30,7 +30,7 @@ function MarqueVoiture() {
 
                 },
             });
-            console.log('Insertion réussie:', response.data);
+            
             toast.success('Données bien insérées!', {
                 position: "top-right",
                 autoClose: 3000,
@@ -58,7 +58,7 @@ function MarqueVoiture() {
 
     const selectAll_MarqueVoiture = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Marque/selectAll_Marque',
+            const response = await axios.get(`${apiUrl}/Marque/selectAll_Marque`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

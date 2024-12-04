@@ -10,7 +10,7 @@ import { Pagination } from 'react-bootstrap';
 
 function ModelVoiture() {
     const token=sessionStorage.getItem("token");
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [data, setData] = useState(''); // Pour le nom du modèle
     const [marika, setMarika] = useState(''); // Pour l'ID de la marque sélectionnée
     const [marqueData, setMarqueData] = useState([]); // Pour stocker les marques récupérées
@@ -88,7 +88,7 @@ function ModelVoiture() {
         event.preventDefault();
         try {
             const response = await axios.post(
-                `http://localhost:8080/model/insertion_Model`, 
+                `${apiUrl}/model/insertion_Model`, 
                 { nom_model: data, id_marque: marika }, 
                 {
                     headers: {
@@ -98,7 +98,7 @@ function ModelVoiture() {
                     },
                 }
             );
-            console.log('Insertion réussie:', response.data);
+            
             toast.success('Données bien insérées!', {  // Afficher une notification de succès
                 position: "top-right",
                 autoClose: 3000,
@@ -127,14 +127,14 @@ function ModelVoiture() {
 
     const selectAll_MarqueVoiture = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Marque/selectAll_Marque',
+            const response = await axios.get(`${apiUrl}/Marque/selectAll_Marque`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            console.log('Données récupérées:', response.data);
+            
             setMarqueData(response.data.data);
         } catch (error) {
             console.error('Erreur de récupération des marques', error);
@@ -143,16 +143,16 @@ function ModelVoiture() {
 
     const selectAll_ModelVoiture = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/model/selectAll_Model',
+            const response = await axios.get(`${apiUrl}/model/selectAll_Model`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
                     }
                 }
             );
-            console.log('Données récupérées:', response.data);  // Pour vérifier la structure des données
+             // Pour vérifier la structure des données
             setModelData(response.data.data);
-            console.log(modelData) ;
+            
         } catch (error) {
             console.error('Erreur de récupération des modèles', error);
         }

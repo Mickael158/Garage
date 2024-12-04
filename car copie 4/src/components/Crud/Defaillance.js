@@ -17,18 +17,17 @@ function Defaillance() {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = defaillanceData.slice(indexOfFirstItem, indexOfLastItem);
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const ajouterDefaillance = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Defaillance/enregistrerDefaillance`, 
+            const response = await axios.post(`${apiUrl}/Defaillance/enregistrerDefaillance`, 
                 { nom_defaillance: data }, {
                 headers: {
                     'content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
             });
-            console.log('Insertion réussie:', response.data);
             toast.success('Données bien insérées!', {
                 position: "top-right",
                 autoClose: 3000,
@@ -56,7 +55,7 @@ function Defaillance() {
 
     const selectAll_Defaillance = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Defaillance/selectAll_Defaillance',
+            const response = await axios.get(`${apiUrl}/Defaillance/selectAll_Defaillance`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`

@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';  // Import des styles Toastify
 function Indisponibilite() {
 
     const token=sessionStorage.getItem("token");
-
+    const apiUrl = process.env.REACT_APP_API_URL;
     const [data, setData] = useState('');
     const [indisponibiliteData, setIndisponibiliteData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -24,14 +24,14 @@ function Indisponibilite() {
     const insererIndisponibilite = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:8080/Indisponibilite/insertion_Indisponibilite`, 
+            const response = await axios.post(`${apiUrl}/Indisponibilite/insertion_Indisponibilite`, 
                 { nom: data }, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
             });
-            console.log('Insertion réussie:', response.data);
+            
             toast.success('Données bien insérées!', {
                 position: "top-right",
                 autoClose: 3000,
@@ -59,7 +59,7 @@ function Indisponibilite() {
 
     const recupererIndisponibilite = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/Indisponibilite/selectAll_Indisponibilite',
+            const response = await axios.get(`${apiUrl}/Indisponibilite/selectAll_Indisponibilite`,
                 {
                     headers:{
                         'Authorization': `Bearer ${token}`
